@@ -10,11 +10,8 @@ find_package(rosidl_default_generators REQUIRED)
 find_package(std_msgs REQUIRED)
 
 rosidl_generate_interfaces(${PROJECT_NAME}
-  "msg/HandState.msg"
-  "msg/HandCommand.msg"
+  "msg/HandDiagnostics.msg"
   "srv/SetEnabled.srv"
-  "srv/GetHandInfo.srv"
-  "srv/GetDiagnostics.srv"
   "srv/ResetError.srv"
   DEPENDENCIES std_msgs
 )

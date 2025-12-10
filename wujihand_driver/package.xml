@@ -14,7 +14,7 @@
   <depend>sensor_msgs</depend>
   <depend>wujihand_msgs</depend>
 
-  <build_depend>wujihandcpp</build_depend>
+  <depend>wujihandcpp</depend>
 
   <export>
     <build_type>ament_cmake</build_type>
