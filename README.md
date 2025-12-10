@@ -13,25 +13,41 @@ WujiHand 灵巧手 ROS2 驱动包，采用简洁的发布/订阅架构。
 
 ```
 wujihand-ros2/
-├── wujihand_ws/                    # 主工作空间
-│   └── src/wujihand/
-│       ├── wujihand_msgs/          # 消息和服务定义
-│       ├── wujihand_driver/        # 驱动节点
-│       └── wujihand_description/   # URDF 模型
-└── example/                        # 示例程序
+├── third_party/
+│   └── wujihandpy/               # wujihandcpp SDK (submodule)
+├── wujihand_ws/                  # 主工作空间
+│   └─�� src/wujihand/
+│       ├── wujihand_msgs/        # 消息和服务定义
+│       ├── wujihand_driver/      # 驱动节点
+│       ├── wujihand_description/ # URDF 模型
+│       └── wujihand_bringup/     # 启动文件
+└── example/                      # 示例程序
     └── src/wujihand_example/
 ```
 
-## 依赖
+## 安装
 
-- ROS2 Humble (22.04) 或 Kilted (24.04)
-- wujihandcpp SDK
-
-## 编译
+### 1. 克隆仓库
 
 ```bash
+# 克隆仓库（包含 submodule）
+git clone --recursive https://github.com/Wuji-Technology-Co-Ltd/wujihand-ros2.git
 cd wujihand-ros2
 
+# 如果已克隆，初始化 submodule
+git submodule update --init --recursive
+```
+
+### 2. 安装依赖
+
+```bash
+# 安装 libusb（wujihandcpp 依赖）
+sudo apt install libusb-1.0-0-dev
+```
+
+### 3. 编译
+
+```bash
 # 设置 ROS2 环境
 # Ubuntu 22.04:
 source /opt/ros/humble/setup.bash
@@ -54,7 +70,7 @@ colcon build
 
 ```bash
 # 设置环境 (根据系统选择 humble 或 kilted)
-source /opt/ros/humble/setup.bash  # 或 kilted
+source /opt/ros/kilted/setup.bash
 source wujihand_ws/install/setup.bash
 
 ros2 run wujihand_driver wujihand_driver_node
@@ -63,7 +79,7 @@ ros2 run wujihand_driver wujihand_driver_node
 启动成功后会看到：
 ```
 [wujihand_driver]: Connected to WujiHand
-[wujihand_driver]: WujiHand driver started (rate: 100.0 Hz)
+[wujihand_driver]: WujiHand driver started (rate: 1000.0 Hz)
 ```
 
 ### 2. 运行示例
@@ -71,7 +87,7 @@ ros2 run wujihand_driver wujihand_driver_node
 在新终端中：
 
 ```bash
-source /opt/ros/humble/setup.bash  # 或 kilted
+source /opt/ros/kilted/setup.bash
 source wujihand_ws/install/setup.bash
 source example/install/setup.bash
 
@@ -85,7 +101,7 @@ ros2 run wujihand_example wujihand_example
 ### 3. 带 RViz 可视化运行
 
 ```bash
-source /opt/ros/humble/setup.bash  # 或 kilted
+source /opt/ros/kilted/setup.bash
 source wujihand_ws/install/setup.bash
 source example/install/setup.bash
 
@@ -116,14 +132,15 @@ ros2 topic pub /hand_command wujihand_msgs/msg/HandCommand \
 | Topic | 类型 | 方向 | 频率 | 说明 |
 |-------|-----|------|-----|------|
 | `/hand_command` | wujihand_msgs/HandCommand | Sub | - | 位置命令 |
-| `/hand_state` | wujihand_msgs/HandState | Pub | 100Hz | 手部状态 |
-| `/joint_states` | sensor_msgs/JointState | Pub | 100Hz | RViz 兼容 |
+| `/hand_state` | wujihand_msgs/HandState | Pub | 1000Hz | 手部状态 |
+| `/joint_states` | sensor_msgs/JointState | Pub | 1000Hz | RViz 兼容 |
 
 ### Services
 
 | Service | 类型 | 说明 |
 |---------|-----|------|
 | `/get_hand_info` | wujihand_msgs/GetHandInfo | 获取设备信息 |
+| `/get_diagnostics` | wujihand_msgs/GetDiagnostics | 获取诊断数据（温度、电压、错误码） |
 | `/set_enabled` | wujihand_msgs/SetEnabled | 启用/禁用关节 |
 | `/reset_error` | wujihand_msgs/ResetError | 重置错误 |
 
@@ -133,11 +150,11 @@ ros2 topic pub /hand_command wujihand_msgs/msg/HandCommand \
 
 | 索引 | 关节名 | 说明 |
 |-----|-------|------|
-| 0-3 | finger1_joint1, finger1_joint2, finger1_joint3, finger1_joint4 | 拇指 (F1) |
-| 4-7 | finger2_joint1, finger2_joint2, finger2_joint3, finger2_joint4 | 食指 (F2) |
-| 8-11 | finger3_joint1, finger3_joint2, finger3_joint3, finger3_joint4 | 中指 (F3) |
-| 12-15 | finger4_joint1, finger4_joint2, finger4_joint3, finger4_joint4 | 无名指 (F4) |
-| 16-19 | finger5_joint1, finger5_joint2, finger5_joint3, finger5_joint4 | 小指 (F5) |
+| 0-3 | finger1_joint1 ~ finger1_joint4 | 拇指 (F1) |
+| 4-7 | finger2_joint1 ~ finger2_joint4 | 食指 (F2) |
+| 8-11 | finger3_joint1 ~ finger3_joint4 | 中指 (F3) |
+| 12-15 | finger4_joint1 ~ finger4_joint4 | 无名指 (F4) |
+| 16-19 | finger5_joint1 ~ finger5_joint4 | 小指 (F5) |
 
 每根手指的关节顺序：joint1 (侧摆), joint2 (屈曲), joint3 (近端指间), joint4 (远端指间)
 
@@ -157,14 +174,14 @@ ros2 topic pub /hand_command wujihand_msgs/msg/HandCommand \
 | 参数 | 默认值 | 说明 |
 |-----|-------|------|
 | `serial_number` | "" | 设备序列号（空则自动连接） |
-| `publish_rate` | 100.0 | 状态发布频率 (Hz) |
+| `publish_rate` | 1000.0 | 状态发布频率 (Hz) |
 | `filter_cutoff_freq` | 10.0 | 低通滤波截止频率 (Hz) |
 
 ```bash
 # 带参数启动
 ros2 run wujihand_driver wujihand_driver_node --ros-args \
   -p serial_number:=XXXXX \
-  -p publish_rate:=200.0
+  -p publish_rate:=500.0
 ```
 
 ## 服务调用示例
@@ -172,6 +189,9 @@ ros2 run wujihand_driver wujihand_driver_node --ros-args \
 ```bash
 # 获取设备信息
 ros2 service call /get_hand_info wujihand_msgs/srv/GetHandInfo
+
+# 获取诊断数据（温度、电压、错误码）
+ros2 service call /get_diagnostics wujihand_msgs/srv/GetDiagnostics
 
 # 禁用所有关节
 ros2 service call /set_enabled wujihand_msgs/srv/SetEnabled \
@@ -207,7 +227,25 @@ uint32[20] error_codes          # 错误码
 bool[20] enabled                # 启用状态
 ```
 
+### GetDiagnostics.srv
+```
+---
+float64 system_temperature      # 系统温度 (°C)
+float64 input_voltage           # 输入电压 (V)
+float64[20] joint_temperatures  # 关节温度 (°C)
+uint32[20] error_codes          # 错误码 (0 = 无错误)
+```
+
 ## 常见问题
+
+### 动态库加载失败
+
+如果遇到 `libwujihandcpp.so: cannot open shared object file` 错误：
+
+```bash
+# 设置库路径
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(pwd)/wujihand_ws/build/wujihand_driver/wujihandcpp
+```
 
 ### WSL2 DDS 通信问题
 
@@ -224,5 +262,5 @@ ros2 daemon start
 ### 硬件连接失败
 
 1. 检查 USB 连接
-2. 确认 wujihandcpp SDK 正确安装
+2. 检查 libusb 是否安装：`sudo apt install libusb-1.0-0-dev`
 3. 检查是否有其他程序占用设备
