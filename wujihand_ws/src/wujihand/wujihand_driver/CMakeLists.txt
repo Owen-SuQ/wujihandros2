@@ -15,10 +15,9 @@ find_package(std_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(wujihand_msgs REQUIRED)
 
-# Use local wujihandcpp from third_party (static build to avoid runtime library issues)
+# Use local wujihandcpp from third_party
 set(WUJIHANDCPP_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../../../third_party/wujihandpy/wujihandcpp")
 set(BUILD_TESTING OFF CACHE BOOL "" FORCE)
-set(BUILD_STATIC_WUJIHANDCPP ON CACHE BOOL "" FORCE)
 # Provide LICENSE file to prevent CPack error (wujihandcpp uses CMAKE_SOURCE_DIR)
 file(WRITE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE" "MIT License - See third_party/wujihandpy/wujihandcpp/LICENSE")
 add_subdirectory(${WUJIHANDCPP_DIR} ${CMAKE_CURRENT_BINARY_DIR}/wujihandcpp EXCLUDE_FROM_ALL)
@@ -48,6 +47,10 @@ target_link_libraries(wujihand_driver_node
 # Install
 install(TARGETS wujihand_driver_node
   DESTINATION lib/${PROJECT_NAME}
+)
+
+install(TARGETS wujihandcpp
+  LIBRARY DESTINATION lib
 )
 
 install(DIRECTORY include/
