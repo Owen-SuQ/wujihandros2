@@ -108,8 +108,7 @@ wujihand-ros2/
 │   └── src/wujihand/
 │       ├── wujihand_msgs/          # 消息和服务定义
 │       ├── wujihand_driver/        # 核心驱动节点
-│       ├── wujihand_description/   # URDF 模型和可视化配置
-│       └── wujihand_bringup/       # 启动文件
+│       └── wujihand_description/   # URDF 模型和可视化配置
 └── example/
     └── src/wujihand_example/       # 示例程序
 ```
@@ -403,12 +402,10 @@ wujihand_msgs          (无依赖)
        │
        ▼
 wujihand_driver        (依赖 wujihand_msgs, wujihandcpp)
-       │
-       ▼
-wujihand_bringup       (依赖 wujihand_driver, wujihand_description)
-       │
-       ▼
-wujihand_example       (依赖 wujihand_msgs)
+
+wujihand_description   (无依赖，URDF 模型)
+
+wujihand_example       (依赖 wujihand_msgs, wujihand_description)
 ```
 
 ## 7. 测试策略
