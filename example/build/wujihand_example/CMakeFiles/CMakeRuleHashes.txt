@@ -1,2 +1,0 @@
-# Hashes of file build rules.
-4236997e52f23d490133a29c2dc73d0f CMakeFiles/wujihand_example_uninstall

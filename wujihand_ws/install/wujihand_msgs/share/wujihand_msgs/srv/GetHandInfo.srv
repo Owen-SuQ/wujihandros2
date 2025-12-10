@@ -1,7 +1,0 @@
-# Request (empty)
----
-# Response
-string handedness        # "left" or "right"
-string firmware_version  # e.g., "3.0.0"
-float64[20] upper_limits # Joint upper limits (radians)
-float64[20] lower_limits # Joint lower limits (radians)

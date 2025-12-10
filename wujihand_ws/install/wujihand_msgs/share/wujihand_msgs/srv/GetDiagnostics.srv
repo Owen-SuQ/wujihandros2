@@ -1,7 +1,0 @@
-# Request (empty)
----
-# Response
-float64 system_temperature    # System temperature (Celsius)
-float64 input_voltage         # Input voltage (V)
-float64[20] joint_temperatures # Joint temperatures (Celsius)
-uint32[20] error_codes        # Joint error codes (0 = no error)

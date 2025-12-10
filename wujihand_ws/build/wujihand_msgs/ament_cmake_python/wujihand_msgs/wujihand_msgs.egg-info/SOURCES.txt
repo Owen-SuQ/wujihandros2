@@ -1,6 +1,0 @@
-setup.py
-wujihand_msgs/__init__.py
-wujihand_msgs.egg-info/PKG-INFO
-wujihand_msgs.egg-info/SOURCES.txt
-wujihand_msgs.egg-info/dependency_links.txt
-wujihand_msgs.egg-info/top_level.txt
