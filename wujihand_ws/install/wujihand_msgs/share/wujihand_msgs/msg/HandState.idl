@@ -1,0 +1,42 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from wujihand_msgs/msg/HandState.msg
+// generated code does not contain a copyright notice
+
+#include "std_msgs/msg/Header.idl"
+
+module wujihand_msgs {
+  module msg {
+    typedef double double__20[20];
+    typedef float float__20[20];
+    typedef uint32 uint32__20[20];
+    typedef boolean boolean__20[20];
+    struct HandState {
+      std_msgs::msg::Header header;
+
+      @verbatim (language="comment", text=
+        "Hand identification" "\n"
+        "\"left\" or \"right\"")
+      string handedness;
+
+      @verbatim (language="comment", text=
+        "System status")
+      float system_temperature;
+
+      float input_voltage;
+
+      @verbatim (language="comment", text=
+        "Joint states (20 joints: 5 fingers x 4 joints)" "\n"
+        "Order: thumb(0-3), index(4-7), middle(8-11), ring(12-15), little(16-19)" "\n"
+        "Each finger: mcp_abd, mcp_flex, pip, dip")
+      double__20 actual_positions;
+
+      double__20 target_positions;
+
+      float__20 joint_temperatures;
+
+      uint32__20 error_codes;
+
+      boolean__20 enabled;
+    };
+  };
+};

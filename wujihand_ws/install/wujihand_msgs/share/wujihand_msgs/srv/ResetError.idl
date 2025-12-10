@@ -1,0 +1,27 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from wujihand_msgs/srv/ResetError.srv
+// generated code does not contain a copyright notice
+
+
+module wujihand_msgs {
+  module srv {
+    @verbatim (language="comment", text=
+      "Request")
+    struct ResetError_Request {
+      @verbatim (language="comment", text=
+        "0-4 (thumb, index, middle, ring, little), 255 for all fingers")
+      uint8 finger_id;
+
+      @verbatim (language="comment", text=
+        "0-3 (mcp_abd, mcp_flex, pip, dip), 255 for all joints")
+      uint8 joint_id;
+    };
+    @verbatim (language="comment", text=
+      "Response")
+    struct ResetError_Response {
+      boolean success;
+
+      string message;
+    };
+  };
+};

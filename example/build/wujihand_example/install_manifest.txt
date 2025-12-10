@@ -1,0 +1,17 @@
+/home/wuji/wujihand/wujihand-ros2/example/install/wujihand_example/lib/wujihand_example/wujihand_example
+/home/wuji/wujihand/wujihand-ros2/example/install/wujihand_example/share/wujihand_example/launch/example_with_rviz.launch.py
+/home/wuji/wujihand/wujihand-ros2/example/install/wujihand_example/share/ament_index/resource_index/package_run_dependencies/wujihand_example
+/home/wuji/wujihand/wujihand-ros2/example/install/wujihand_example/share/ament_index/resource_index/parent_prefix_path/wujihand_example
+/home/wuji/wujihand/wujihand-ros2/example/install/wujihand_example/share/wujihand_example/environment/ament_prefix_path.sh
+/home/wuji/wujihand/wujihand-ros2/example/install/wujihand_example/share/wujihand_example/environment/ament_prefix_path.dsv
+/home/wuji/wujihand/wujihand-ros2/example/install/wujihand_example/share/wujihand_example/environment/path.sh
+/home/wuji/wujihand/wujihand-ros2/example/install/wujihand_example/share/wujihand_example/environment/path.dsv
+/home/wuji/wujihand/wujihand-ros2/example/install/wujihand_example/share/wujihand_example/local_setup.bash
+/home/wuji/wujihand/wujihand-ros2/example/install/wujihand_example/share/wujihand_example/local_setup.sh
+/home/wuji/wujihand/wujihand-ros2/example/install/wujihand_example/share/wujihand_example/local_setup.zsh
+/home/wuji/wujihand/wujihand-ros2/example/install/wujihand_example/share/wujihand_example/local_setup.dsv
+/home/wuji/wujihand/wujihand-ros2/example/install/wujihand_example/share/wujihand_example/package.dsv
+/home/wuji/wujihand/wujihand-ros2/example/install/wujihand_example/share/ament_index/resource_index/packages/wujihand_example
+/home/wuji/wujihand/wujihand-ros2/example/install/wujihand_example/share/wujihand_example/cmake/wujihand_exampleConfig.cmake
+/home/wuji/wujihand/wujihand-ros2/example/install/wujihand_example/share/wujihand_example/cmake/wujihand_exampleConfig-version.cmake
+/home/wuji/wujihand/wujihand-ros2/example/install/wujihand_example/share/wujihand_example/package.xml

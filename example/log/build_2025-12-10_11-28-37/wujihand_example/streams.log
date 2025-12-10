@@ -1,0 +1,69 @@
+[0.008s] Invoking command in '/home/wuji/wujihand/wujihand-ros2/example/build/wujihand_example': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/kilted /usr/bin/cmake /home/wuji/wujihand/wujihand-ros2/example/src/wujihand_example -DCMAKE_INSTALL_PREFIX=/home/wuji/wujihand/wujihand-ros2/example/install/wujihand_example
+[0.119s] -- The C compiler identification is GNU 13.3.0
+[0.693s] -- The CXX compiler identification is GNU 13.3.0
+[1.175s] -- Detecting C compiler ABI info
+[1.408s] -- Detecting C compiler ABI info - done
+[1.412s] -- Check for working C compiler: /usr/bin/cc - skipped
+[1.413s] -- Detecting C compile features
+[1.413s] -- Detecting C compile features - done
+[1.486s] -- Detecting CXX compiler ABI info
+[1.691s] -- Detecting CXX compiler ABI info - done
+[1.696s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[1.696s] -- Detecting CXX compile features
+[1.696s] -- Detecting CXX compile features - done
+[1.698s] -- Found ament_cmake: 2.7.3 (/opt/ros/kilted/share/ament_cmake/cmake)
+[1.788s] -- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter 
+[1.848s] -- Found rclcpp: 29.5.4 (/opt/ros/kilted/share/rclcpp/cmake)
+[1.972s] -- Found rosidl_generator_c: 4.9.5 (/opt/ros/kilted/share/rosidl_generator_c/cmake)
+[1.979s] -- Found rosidl_generator_cpp: 4.9.5 (/opt/ros/kilted/share/rosidl_generator_cpp/cmake)
+[1.988s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[1.997s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[2.040s] -- Found rmw_implementation_cmake: 7.8.2 (/opt/ros/kilted/share/rmw_implementation_cmake/cmake)
+[2.041s] -- Found rmw_fastrtps_cpp: 9.3.3 (/opt/ros/kilted/share/rmw_fastrtps_cpp/cmake)
+[2.087s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.13")  
+[2.094s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[2.236s] -- Found wujihand_msgs: 0.1.0 (/home/wuji/wujihand/wujihand-ros2/wujihand_ws/install/wujihand_msgs/share/wujihand_msgs/cmake)
+[2.258s] [0mCMake Deprecation Warning at /opt/ros/kilted/share/ament_cmake_target_dependencies/cmake/ament_target_dependencies.cmake:87 (message):
+[2.258s]   ament_target_dependencies() is deprecated.  Use target_link_libraries()
+[2.258s]   with modern CMake targets instead.  Try replacing this call with:
+[2.258s] 
+[2.258s]     target_link_libraries(wujihand_example PUBLIC
+[2.258s]       ${wujihand_msgs_TARGETS}
+[2.258s]       rclcpp::rclcpp
+[2.258s]     )
+[2.258s] 
+[2.258s] Call Stack (most recent call first):
+[2.258s]   CMakeLists.txt:13 (ament_target_dependencies)
+[2.258s] 
+[2.258s] [0m
+[2.318s] -- Configuring done (2.3s)
+[2.326s] -- Generating done (0.0s)
+[2.329s] -- Build files have been written to: /home/wuji/wujihand/wujihand-ros2/example/build/wujihand_example
+[2.336s] Invoked command in '/home/wuji/wujihand/wujihand-ros2/example/build/wujihand_example' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/kilted /usr/bin/cmake /home/wuji/wujihand/wujihand-ros2/example/src/wujihand_example -DCMAKE_INSTALL_PREFIX=/home/wuji/wujihand/wujihand-ros2/example/install/wujihand_example
+[2.337s] Invoking command in '/home/wuji/wujihand/wujihand-ros2/example/build/wujihand_example': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/kilted /usr/bin/cmake --build /home/wuji/wujihand/wujihand-ros2/example/build/wujihand_example -- -j24 -l24
+[2.371s] [ 50%] [32mBuilding CXX object CMakeFiles/wujihand_example.dir/src/wujihand_example.cpp.o[0m
+[7.676s] [100%] [32m[1mLinking CXX executable wujihand_example[0m
+[7.924s] [100%] Built target wujihand_example
+[7.932s] Invoked command in '/home/wuji/wujihand/wujihand-ros2/example/build/wujihand_example' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/kilted /usr/bin/cmake --build /home/wuji/wujihand/wujihand-ros2/example/build/wujihand_example -- -j24 -l24
+[7.937s] Invoking command in '/home/wuji/wujihand/wujihand-ros2/example/build/wujihand_example': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/kilted /usr/bin/cmake --install /home/wuji/wujihand/wujihand-ros2/example/build/wujihand_example
+[7.942s] -- Install configuration: ""
+[7.942s] -- Installing: /home/wuji/wujihand/wujihand-ros2/example/install/wujihand_example/lib/wujihand_example/wujihand_example
+[7.945s] -- Set non-toolchain portion of runtime path of "/home/wuji/wujihand/wujihand-ros2/example/install/wujihand_example/lib/wujihand_example/wujihand_example" to ""
+[7.945s] -- Installing: /home/wuji/wujihand/wujihand-ros2/example/install/wujihand_example/share/wujihand_example/launch
+[7.945s] -- Installing: /home/wuji/wujihand/wujihand-ros2/example/install/wujihand_example/share/wujihand_example/launch/example_with_rviz.launch.py
+[7.946s] -- Installing: /home/wuji/wujihand/wujihand-ros2/example/install/wujihand_example/share/ament_index/resource_index/package_run_dependencies/wujihand_example
+[7.946s] -- Installing: /home/wuji/wujihand/wujihand-ros2/example/install/wujihand_example/share/ament_index/resource_index/parent_prefix_path/wujihand_example
+[7.947s] -- Installing: /home/wuji/wujihand/wujihand-ros2/example/install/wujihand_example/share/wujihand_example/environment/ament_prefix_path.sh
+[7.947s] -- Installing: /home/wuji/wujihand/wujihand-ros2/example/install/wujihand_example/share/wujihand_example/environment/ament_prefix_path.dsv
+[7.947s] -- Installing: /home/wuji/wujihand/wujihand-ros2/example/install/wujihand_example/share/wujihand_example/environment/path.sh
+[7.947s] -- Installing: /home/wuji/wujihand/wujihand-ros2/example/install/wujihand_example/share/wujihand_example/environment/path.dsv
+[7.947s] -- Installing: /home/wuji/wujihand/wujihand-ros2/example/install/wujihand_example/share/wujihand_example/local_setup.bash
+[7.947s] -- Installing: /home/wuji/wujihand/wujihand-ros2/example/install/wujihand_example/share/wujihand_example/local_setup.sh
+[7.947s] -- Installing: /home/wuji/wujihand/wujihand-ros2/example/install/wujihand_example/share/wujihand_example/local_setup.zsh
+[7.947s] -- Installing: /home/wuji/wujihand/wujihand-ros2/example/install/wujihand_example/share/wujihand_example/local_setup.dsv
+[7.947s] -- Installing: /home/wuji/wujihand/wujihand-ros2/example/install/wujihand_example/share/wujihand_example/package.dsv
+[7.947s] -- Installing: /home/wuji/wujihand/wujihand-ros2/example/install/wujihand_example/share/ament_index/resource_index/packages/wujihand_example
+[7.948s] -- Installing: /home/wuji/wujihand/wujihand-ros2/example/install/wujihand_example/share/wujihand_example/cmake/wujihand_exampleConfig.cmake
+[7.948s] -- Installing: /home/wuji/wujihand/wujihand-ros2/example/install/wujihand_example/share/wujihand_example/cmake/wujihand_exampleConfig-version.cmake
+[7.948s] -- Installing: /home/wuji/wujihand/wujihand-ros2/example/install/wujihand_example/share/wujihand_example/package.xml
+[7.949s] Invoked command in '/home/wuji/wujihand/wujihand-ros2/example/build/wujihand_example' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/kilted /usr/bin/cmake --install /home/wuji/wujihand/wujihand-ros2/example/build/wujihand_example

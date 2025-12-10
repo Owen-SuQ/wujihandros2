@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "wujihand_msgs__py",
+		"source" : "/home/wuji/wujihand/wujihand-ros2/wujihand_ws/build/wujihand_msgs/wujihand_msgs__py"
+	}
+}

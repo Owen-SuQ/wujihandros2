@@ -1,0 +1,20 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from wujihand_msgs/msg/HandCommand.msg
+// generated code does not contain a copyright notice
+
+#include "std_msgs/msg/Header.idl"
+
+module wujihand_msgs {
+  module msg {
+    typedef double double__20[20];
+    struct HandCommand {
+      std_msgs::msg::Header header;
+
+      @verbatim (language="comment", text=
+        "Target positions for all 20 joints" "\n"
+        "Order: thumb(0-3), index(4-7), middle(8-11), ring(12-15), little(16-19)" "\n"
+        "Each finger: mcp_abd, mcp_flex, pip, dip")
+      double__20 target_positions;
+    };
+  };
+};

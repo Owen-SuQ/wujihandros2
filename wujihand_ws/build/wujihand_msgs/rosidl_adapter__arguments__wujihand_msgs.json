@@ -1,0 +1,11 @@
+{
+  "package_name": "wujihand_msgs",
+  "non_idl_tuples": [
+    "/home/wuji/wujihand/wujihand-ros2/wujihand_ws/src/wujihand/wujihand_msgs:msg/HandState.msg",
+    "/home/wuji/wujihand/wujihand-ros2/wujihand_ws/src/wujihand/wujihand_msgs:msg/HandCommand.msg",
+    "/home/wuji/wujihand/wujihand-ros2/wujihand_ws/src/wujihand/wujihand_msgs:srv/SetEnabled.srv",
+    "/home/wuji/wujihand/wujihand-ros2/wujihand_ws/src/wujihand/wujihand_msgs:srv/GetHandInfo.srv",
+    "/home/wuji/wujihand/wujihand-ros2/wujihand_ws/src/wujihand/wujihand_msgs:srv/GetDiagnostics.srv",
+    "/home/wuji/wujihand/wujihand-ros2/wujihand_ws/src/wujihand/wujihand_msgs:srv/ResetError.srv"
+  ]
+}

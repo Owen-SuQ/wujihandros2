@@ -1,0 +1,12 @@
+msg/HandCommand.idl
+msg/HandCommand.msg
+msg/HandState.idl
+msg/HandState.msg
+srv/GetDiagnostics.idl
+srv/GetDiagnostics.srv
+srv/GetHandInfo.idl
+srv/GetHandInfo.srv
+srv/ResetError.idl
+srv/ResetError.srv
+srv/SetEnabled.idl
+srv/SetEnabled.srv

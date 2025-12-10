@@ -1,0 +1,24 @@
+cmake_minimum_required(VERSION 3.8)
+project(wujihand_msgs)
+
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
+
+find_package(ament_cmake REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
+find_package(std_msgs REQUIRED)
+
+rosidl_generate_interfaces(${PROJECT_NAME}
+  "msg/HandState.msg"
+  "msg/HandCommand.msg"
+  "srv/SetEnabled.srv"
+  "srv/GetHandInfo.srv"
+  "srv/GetDiagnostics.srv"
+  "srv/ResetError.srv"
+  DEPENDENCIES std_msgs
+)
+
+ament_export_dependencies(rosidl_default_runtime)
+
+ament_package()

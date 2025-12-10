@@ -1,0 +1,34 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from wujihand_msgs/srv/GetHandInfo.srv
+// generated code does not contain a copyright notice
+
+
+module wujihand_msgs {
+  module srv {
+    @verbatim (language="comment", text=
+      "Request (empty)")
+    struct GetHandInfo_Request {
+      uint8 structure_needs_at_least_one_member;
+    };
+    typedef double double__20[20];
+    @verbatim (language="comment", text=
+      "Response")
+    struct GetHandInfo_Response {
+      @verbatim (language="comment", text=
+        "\"left\" or \"right\"")
+      string handedness;
+
+      @verbatim (language="comment", text=
+        "e.g., \"3.0.0\"")
+      string firmware_version;
+
+      @verbatim (language="comment", text=
+        "Joint upper limits (radians)")
+      double__20 upper_limits;
+
+      @verbatim (language="comment", text=
+        "Joint lower limits (radians)")
+      double__20 lower_limits;
+    };
+  };
+};

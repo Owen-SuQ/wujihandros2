@@ -1,0 +1,9 @@
+/home/wuji/wujihand/wujihand-ros2/wujihand_ws/build/wujihand_description/CMakeFiles/uninstall.dir
+/home/wuji/wujihand/wujihand-ros2/wujihand_ws/build/wujihand_description/CMakeFiles/wujihand_description_uninstall.dir
+/home/wuji/wujihand/wujihand-ros2/wujihand_ws/build/wujihand_description/CMakeFiles/test.dir
+/home/wuji/wujihand/wujihand-ros2/wujihand_ws/build/wujihand_description/CMakeFiles/edit_cache.dir
+/home/wuji/wujihand/wujihand-ros2/wujihand_ws/build/wujihand_description/CMakeFiles/rebuild_cache.dir
+/home/wuji/wujihand/wujihand-ros2/wujihand_ws/build/wujihand_description/CMakeFiles/list_install_components.dir
+/home/wuji/wujihand/wujihand-ros2/wujihand_ws/build/wujihand_description/CMakeFiles/install.dir
+/home/wuji/wujihand/wujihand-ros2/wujihand_ws/build/wujihand_description/CMakeFiles/install/local.dir
+/home/wuji/wujihand/wujihand-ros2/wujihand_ws/build/wujihand_description/CMakeFiles/install/strip.dir

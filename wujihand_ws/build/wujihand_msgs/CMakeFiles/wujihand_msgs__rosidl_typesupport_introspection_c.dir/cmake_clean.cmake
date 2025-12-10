@@ -1,0 +1,33 @@
+file(REMOVE_RECURSE
+  "CMakeFiles/wujihand_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/wujihand_msgs/msg/detail/hand_command__type_support.c.o"
+  "CMakeFiles/wujihand_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/wujihand_msgs/msg/detail/hand_command__type_support.c.o.d"
+  "CMakeFiles/wujihand_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/wujihand_msgs/msg/detail/hand_state__type_support.c.o"
+  "CMakeFiles/wujihand_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/wujihand_msgs/msg/detail/hand_state__type_support.c.o.d"
+  "CMakeFiles/wujihand_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/wujihand_msgs/srv/detail/get_diagnostics__type_support.c.o"
+  "CMakeFiles/wujihand_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/wujihand_msgs/srv/detail/get_diagnostics__type_support.c.o.d"
+  "CMakeFiles/wujihand_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/wujihand_msgs/srv/detail/get_hand_info__type_support.c.o"
+  "CMakeFiles/wujihand_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/wujihand_msgs/srv/detail/get_hand_info__type_support.c.o.d"
+  "CMakeFiles/wujihand_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/wujihand_msgs/srv/detail/reset_error__type_support.c.o"
+  "CMakeFiles/wujihand_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/wujihand_msgs/srv/detail/reset_error__type_support.c.o.d"
+  "CMakeFiles/wujihand_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/wujihand_msgs/srv/detail/set_enabled__type_support.c.o"
+  "CMakeFiles/wujihand_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/wujihand_msgs/srv/detail/set_enabled__type_support.c.o.d"
+  "libwujihand_msgs__rosidl_typesupport_introspection_c.pdb"
+  "libwujihand_msgs__rosidl_typesupport_introspection_c.so"
+  "rosidl_typesupport_introspection_c/wujihand_msgs/msg/detail/hand_command__rosidl_typesupport_introspection_c.h"
+  "rosidl_typesupport_introspection_c/wujihand_msgs/msg/detail/hand_command__type_support.c"
+  "rosidl_typesupport_introspection_c/wujihand_msgs/msg/detail/hand_state__rosidl_typesupport_introspection_c.h"
+  "rosidl_typesupport_introspection_c/wujihand_msgs/msg/detail/hand_state__type_support.c"
+  "rosidl_typesupport_introspection_c/wujihand_msgs/srv/detail/get_diagnostics__rosidl_typesupport_introspection_c.h"
+  "rosidl_typesupport_introspection_c/wujihand_msgs/srv/detail/get_diagnostics__type_support.c"
+  "rosidl_typesupport_introspection_c/wujihand_msgs/srv/detail/get_hand_info__rosidl_typesupport_introspection_c.h"
+  "rosidl_typesupport_introspection_c/wujihand_msgs/srv/detail/get_hand_info__type_support.c"
+  "rosidl_typesupport_introspection_c/wujihand_msgs/srv/detail/reset_error__rosidl_typesupport_introspection_c.h"
+  "rosidl_typesupport_introspection_c/wujihand_msgs/srv/detail/reset_error__type_support.c"
+  "rosidl_typesupport_introspection_c/wujihand_msgs/srv/detail/set_enabled__rosidl_typesupport_introspection_c.h"
+  "rosidl_typesupport_introspection_c/wujihand_msgs/srv/detail/set_enabled__type_support.c"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang C)
+  include(CMakeFiles/wujihand_msgs__rosidl_typesupport_introspection_c.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

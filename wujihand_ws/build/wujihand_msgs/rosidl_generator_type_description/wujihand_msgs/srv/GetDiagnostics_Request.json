@@ -1,0 +1,26 @@
+{
+  "type_description_msg": {
+    "type_description": {
+      "type_name": "wujihand_msgs/srv/GetDiagnostics_Request",
+      "fields": [
+        {
+          "name": "structure_needs_at_least_one_member",
+          "type": {
+            "type_id": 3,
+            "capacity": 0,
+            "string_capacity": 0,
+            "nested_type_name": ""
+          },
+          "default_value": ""
+        }
+      ]
+    },
+    "referenced_type_descriptions": []
+  },
+  "type_hashes": [
+    {
+      "type_name": "wujihand_msgs/srv/GetDiagnostics_Request",
+      "hash_string": "RIHS01_d82d5cafb888967af492381a540bca71322f0ab8ee1973d5fdaefc8474e9720f"
+    }
+  ]
+}

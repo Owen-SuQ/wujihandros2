@@ -1,0 +1,16 @@
+from wujihand_msgs.srv._get_diagnostics import GetDiagnostics  # noqa: F401
+from wujihand_msgs.srv._get_diagnostics import GetDiagnostics_Event  # noqa: F401
+from wujihand_msgs.srv._get_diagnostics import GetDiagnostics_Request  # noqa: F401
+from wujihand_msgs.srv._get_diagnostics import GetDiagnostics_Response  # noqa: F401
+from wujihand_msgs.srv._get_hand_info import GetHandInfo  # noqa: F401
+from wujihand_msgs.srv._get_hand_info import GetHandInfo_Event  # noqa: F401
+from wujihand_msgs.srv._get_hand_info import GetHandInfo_Request  # noqa: F401
+from wujihand_msgs.srv._get_hand_info import GetHandInfo_Response  # noqa: F401
+from wujihand_msgs.srv._reset_error import ResetError  # noqa: F401
+from wujihand_msgs.srv._reset_error import ResetError_Event  # noqa: F401
+from wujihand_msgs.srv._reset_error import ResetError_Request  # noqa: F401
+from wujihand_msgs.srv._reset_error import ResetError_Response  # noqa: F401
+from wujihand_msgs.srv._set_enabled import SetEnabled  # noqa: F401
+from wujihand_msgs.srv._set_enabled import SetEnabled_Event  # noqa: F401
+from wujihand_msgs.srv._set_enabled import SetEnabled_Request  # noqa: F401
+from wujihand_msgs.srv._set_enabled import SetEnabled_Response  # noqa: F401
