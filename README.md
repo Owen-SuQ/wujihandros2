@@ -2,16 +2,42 @@
 
 WujiHand 灵巧手 ROS2 驱动包。
 
-## 30秒快速开始
+## 方式一：源码编译
+
+### 1. 环境准备
 
 ```bash
-# 1. 配置环境
+# 安装 ROS2 (以 Kilted 为例)
+sudo apt install ros-kilted-ros-base ros-kilted-robot-state-publisher ros-kilted-rviz2
+
+# 安装 wujihandcpp SDK
+sudo dpkg -i wujihandcpp-1.3.0-amd64.deb
+```
+
+### 2. 编译
+
+```bash
+cd wujihand_ros2
+
+# 配置环境
 source /opt/ros/kilted/setup.bash
 
-# 2. 启动驱动
+# 编译
+colcon build
+
+# 加载编译结果
+source install/setup.bash
+```
+
+### 3. 测试驱动
+
+```bash
+# 启动驱动
 ros2 launch wujihand_bringup wujihand.launch.py
 
-# 3. 验证 (新终端)
+# 新终端验证
+source /opt/ros/kilted/setup.bash
+source install/setup.bash
 ros2 topic echo /joint_states --once
 ```
 
@@ -21,42 +47,64 @@ ros2 topic echo /joint_states --once
 [wujihand_driver]: WujiHand driver started (state: 1000.0 Hz, diagnostics: 10.0 Hz)
 ```
 
-## 安装
-
-### Deb 包安装 (推荐)
+### 4. 测试脚本
 
 ```bash
-# 1. 安装 wujihandcpp SDK
-sudo dpkg -i wujihandcpp-1.3.0-amd64.deb
+# 运行波浪演示
+ros2 run wujihand_bringup wave_demo.py
+```
 
-# 2. 安装 wujihand-ros2
+---
+
+## 方式二：Deb 包安装
+
+### 1. 安装依赖
+
+```bash
+# 安装 ROS2
+sudo apt install ros-kilted-ros-base ros-kilted-robot-state-publisher
+
+# 安装 wujihandcpp SDK
+sudo dpkg -i wujihandcpp-1.3.0-amd64.deb
+```
+
+### 2. 安装驱动包
+
+```bash
 sudo dpkg -i ros-kilted-wujihand_0.1.0-1_amd64.deb
 ```
 
-### 源码编译
+### 3. 测试驱动
 
 ```bash
-# 克隆仓库
-git clone https://github.com/user/wujihand-ros2.git
-cd wujihand-ros2
-
-# 编译
+# 配置环境
 source /opt/ros/kilted/setup.bash
-colcon build
 
-# 使用
-source install/setup.bash
+# 启动驱动
+ros2 launch wujihand_bringup wujihand.launch.py
+
+# 新终端验证
+source /opt/ros/kilted/setup.bash
+ros2 topic echo /joint_states --once
 ```
 
-## 基础使用
+### 4. 测试脚本
 
-### 启动方式
+```bash
+ros2 run wujihand_bringup wave_demo.py
+```
+
+---
+
+## 启动方式
 
 | 命令 | 说明 |
 |-----|------|
 | `ros2 launch wujihand_bringup wujihand.launch.py` | 仅驱动 |
 | `ros2 launch wujihand_bringup wujihand_rviz.launch.py` | 驱动 + RViz |
 | `ros2 launch wujihand_bringup wujihand_foxglove.launch.py` | 驱动 + Foxglove |
+
+## 基础使用
 
 ### 发送控制命令
 
@@ -78,12 +126,6 @@ ros2 topic echo /joint_states
 
 # 诊断信息 (10Hz)
 ros2 topic echo /hand_diagnostics
-```
-
-### 演示程序
-
-```bash
-ros2 run wujihand_bringup wave_demo.py
 ```
 
 ### 服务调用
