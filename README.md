@@ -2,25 +2,62 @@
 
 WujiHand 灵巧手 ROS2 驱动包。
 
+## 支持的平台
+
+| Ubuntu | ROS2 版本 |
+|--------|----------|
+| 22.04 | Humble |
+| 24.04 | Kilted |
+
+---
+
 ## 方式一：源码编译
 
 ### 1. 环境准备
 
-```bash
-# 安装 ROS2 (以 Kilted 为例)
-sudo apt install ros-kilted-ros-base ros-kilted-robot-state-publisher ros-kilted-rviz2
+#### Ubuntu 22.04 (Humble)
 
-# 安装 wujihandcpp SDK
+```bash
+# 安装 ROS2 Humble
+sudo apt update
+sudo apt install -y ros-humble-ros-base ros-humble-robot-state-publisher \
+    ros-humble-rviz2 ros-humble-sensor-msgs ros-humble-std-msgs \
+    ros-humble-xacro ros-humble-foxglove-bridge
+
+# 安装编译工具
+sudo apt install -y python3-colcon-common-extensions python3-rosdep
+
+# 下载并安装 wujihandcpp SDK
+wget https://github.com/Wuji-Technology-Co-Ltd/wujihandpy/releases/download/v1.3.0/wujihandcpp-1.3.0-amd64.deb
+sudo dpkg -i wujihandcpp-1.3.0-amd64.deb
+```
+
+#### Ubuntu 24.04 (Kilted)
+
+```bash
+# 安装 ROS2 Kilted
+sudo apt update
+sudo apt install -y ros-kilted-ros-base ros-kilted-robot-state-publisher \
+    ros-kilted-rviz2 ros-kilted-sensor-msgs ros-kilted-std-msgs \
+    ros-kilted-xacro ros-kilted-foxglove-bridge
+
+# 安装编译工具
+sudo apt install -y python3-colcon-common-extensions python3-rosdep
+
+# 下载并安装 wujihandcpp SDK
+wget https://github.com/Wuji-Technology-Co-Ltd/wujihandpy/releases/download/v1.3.0/wujihandcpp-1.3.0-amd64.deb
 sudo dpkg -i wujihandcpp-1.3.0-amd64.deb
 ```
 
 ### 2. 编译
 
 ```bash
-cd wujihand_ros2
+cd wujihandros2
 
-# 配置环境
-source /opt/ros/kilted/setup.bash
+# 配置环境 (根据你的 ROS2 版本选择)
+source /opt/ros/humble/setup.bash   # Ubuntu 22.04
+# 或
+source /opt/ros/kilted/setup.bash   # Ubuntu 24.04
 
 # 编译
 colcon build
@@ -36,7 +73,7 @@ source install/setup.bash
 ros2 launch wujihand_bringup wujihand.launch.py
 
 # 新终端验证
-source /opt/ros/kilted/setup.bash
+source /opt/ros/<distro>/setup.bash  # humble 或 kilted
 source install/setup.bash
 ros2 topic echo /joint_states --once
 ```
@@ -58,37 +95,52 @@ ros2 run wujihand_bringup wave_demo.py
 
 ## 方式二：Deb 包安装
 
-### 1. 安装依赖
+### Ubuntu 22.04 (Humble)
 
 ```bash
-# 安装 ROS2
-sudo apt install ros-kilted-ros-base ros-kilted-robot-state-publisher
+# 安装 ROS2 依赖
+sudo apt update
+sudo apt install -y ros-humble-ros-base ros-humble-robot-state-publisher \
+    ros-humble-sensor-msgs ros-humble-std-msgs
 
-# 安装 wujihandcpp SDK
+# 下载并安装 wujihandcpp SDK
+wget https://github.com/Wuji-Technology-Co-Ltd/wujihandpy/releases/download/v1.3.0/wujihandcpp-1.3.0-amd64.deb
 sudo dpkg -i wujihandcpp-1.3.0-amd64.deb
+
+# 安装 WujiHand ROS2 驱动
+sudo dpkg -i ros-humble-wujihand-ros2_0.1.0_amd64.deb
 ```
 
-### 2. 安装驱动包
+### Ubuntu 24.04 (Kilted)
 
 ```bash
+# 安装 ROS2 依赖
+sudo apt update
+sudo apt install -y ros-kilted-ros-base ros-kilted-robot-state-publisher \
+    ros-kilted-sensor-msgs ros-kilted-std-msgs
+
+# 下载并安装 wujihandcpp SDK
+wget https://github.com/Wuji-Technology-Co-Ltd/wujihandpy/releases/download/v1.3.0/wujihandcpp-1.3.0-amd64.deb
+sudo dpkg -i wujihandcpp-1.3.0-amd64.deb
+
+# 安装 WujiHand ROS2 驱动
 sudo dpkg -i ros-kilted-wujihand-ros2_0.1.0_amd64.deb
 ```
 
-### 3. 测试驱动
+### 测试驱动
 
 ```bash
 # 配置环境
-source /opt/ros/kilted/setup.bash
+source /opt/ros/<distro>/setup.bash  # humble 或 kilted
 
 # 启动驱动
 ros2 launch wujihand_bringup wujihand.launch.py
 
 # 新终端验证
-source /opt/ros/kilted/setup.bash
 ros2 topic echo /joint_states --once
 ```
 
-### 4. 测试脚本
+### 测试脚本
 
 ```bash
 ros2 run wujihand_bringup wave_demo.py
@@ -137,14 +189,6 @@ ros2 service call /set_enabled wujihand_msgs/srv/SetEnabled "{finger_id: 0, enab
 # 重置错误
 ros2 service call /reset_error wujihand_msgs/srv/ResetError "{finger_id: 0}"
 ```
-
-## 支持的平台
-
-| Ubuntu | ROS2 版本 |
-|--------|----------|
-| 22.04 | Humble |
-| 24.04 | Jazzy |
-| 24.04 | Kilted |
 
 ## 更多文档
 
