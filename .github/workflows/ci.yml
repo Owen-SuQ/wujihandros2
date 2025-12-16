@@ -96,8 +96,8 @@ jobs:
             - name: Upload deb artifact
               uses: actions/upload-artifact@v4
               with:
-                  name: ros-jazzy-wujihand-deb
-                  path: ../ros-jazzy-wujihand_*.deb
+                  name: ros-jazzy-wujihand-ros2-deb
+                  path: ros-jazzy-wujihand-ros2_*.deb
                   retention-days: 30
 
     lint:
