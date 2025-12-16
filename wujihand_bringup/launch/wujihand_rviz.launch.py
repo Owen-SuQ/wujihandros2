@@ -3,7 +3,6 @@ import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
-from launch.conditions import IfCondition, UnlessCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
@@ -22,12 +21,6 @@ def generate_launch_description():
         description="Serial number of the WujiHand device",
     )
 
-    use_mock_arg = DeclareLaunchArgument(
-        "use_mock",
-        default_value="false",
-        description="Use mock driver instead of real hardware",
-    )
-
     # Read URDF file directly (not xacro)
     with open(urdf_file, "r") as f:
         robot_description = f.read()
@@ -41,7 +34,7 @@ def generate_launch_description():
         emulate_tty=True,
     )
 
-    # Real hardware driver
+    # WujiHand driver
     wujihand_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(wujihand_bringup_dir, "launch", "wujihand.launch.py")
@@ -49,15 +42,6 @@ def generate_launch_description():
         launch_arguments={
             "serial_number": LaunchConfiguration("serial_number"),
         }.items(),
-        condition=UnlessCondition(LaunchConfiguration("use_mock")),
-    )
-
-    # Mock driver
-    mock_launch = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(wujihand_bringup_dir, "launch", "wujihand_mock.launch.py")
-        ),
-        condition=IfCondition(LaunchConfiguration("use_mock")),
     )
 
     rviz_config = os.path.join(wujihand_description_dir, "rviz", "robot_display.rviz")
@@ -74,10 +58,8 @@ def generate_launch_description():
     return LaunchDescription(
         [
             serial_number_arg,
-            use_mock_arg,
             robot_state_publisher_node,
             wujihand_launch,
-            mock_launch,
             rviz_node,
         ]
     )

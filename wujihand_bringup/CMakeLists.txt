@@ -10,7 +10,6 @@ install(DIRECTORY launch
 
 install(PROGRAMS
   scripts/wave_demo.py
-  scripts/mock_driver.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
