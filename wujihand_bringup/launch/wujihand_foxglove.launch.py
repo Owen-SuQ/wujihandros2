@@ -1,40 +1,28 @@
+"""Launch WujiHand driver with Foxglove Bridge for visualization."""
+
 import os
+import sys
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
+# Add launch directory to path for local imports
+sys.path.insert(0, os.path.dirname(__file__))
+from common import get_common_launch_arguments, get_robot_state_publisher_node
+
 
 def generate_launch_description():
     wujihand_bringup_dir = get_package_share_directory("wujihand_bringup")
-    wujihand_description_dir = get_package_share_directory("wujihand_description")
 
-    # URDF file (default to right hand)
-    urdf_file = os.path.join(wujihand_description_dir, "urdf", "right-ros.urdf")
+    hand_name = LaunchConfiguration("hand_name")
+    hand_type = LaunchConfiguration("hand_type")
 
-    # Launch arguments
-    serial_number_arg = DeclareLaunchArgument(
-        "serial_number",
-        default_value="",
-        description="Serial number of the WujiHand device",
-    )
-
-    # Read URDF file
-    with open(urdf_file, "r") as f:
-        robot_description = f.read()
-
-    # Robot state publisher
-    robot_state_publisher_node = Node(
-        package="robot_state_publisher",
-        executable="robot_state_publisher",
-        name="robot_state_publisher",
-        parameters=[{"robot_description": robot_description}],
-        output="screen",
-        emulate_tty=True,
-    )
+    # Robot state publisher with XACRO processing
+    robot_state_publisher_node = get_robot_state_publisher_node(hand_name, hand_type)
 
     # WujiHand driver launch
     wujihand_launch = IncludeLaunchDescription(
@@ -42,7 +30,11 @@ def generate_launch_description():
             os.path.join(wujihand_bringup_dir, "launch", "wujihand.launch.py")
         ),
         launch_arguments={
+            "hand_name": hand_name,
             "serial_number": LaunchConfiguration("serial_number"),
+            "publish_rate": LaunchConfiguration("publish_rate"),
+            "filter_cutoff_freq": LaunchConfiguration("filter_cutoff_freq"),
+            "diagnostics_rate": LaunchConfiguration("diagnostics_rate"),
         }.items(),
     )
 
@@ -56,9 +48,6 @@ def generate_launch_description():
                 "port": 8765,
                 "address": "0.0.0.0",
                 "send_buffer_limit": 50000000,
-                "use_sim_time": False,
-                "max_qos_depth": 10,
-                # Allow loading mesh files from ROS packages
                 "asset_uri_allowlist": [
                     "^package://.*\\.(?:dae|fbx|glb|gltf|jpeg|jpg|mtl|obj|png|stl|tif|tiff|urdf|webp|xacro|STL)$"
                 ],
@@ -69,8 +58,8 @@ def generate_launch_description():
     )
 
     return LaunchDescription(
-        [
-            serial_number_arg,
+        get_common_launch_arguments()
+        + [
             robot_state_publisher_node,
             wujihand_launch,
             foxglove_bridge_node,

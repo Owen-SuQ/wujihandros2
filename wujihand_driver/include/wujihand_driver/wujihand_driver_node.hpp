@@ -70,6 +70,7 @@ class WujiHandDriverNode : public rclcpp::Node {
 
   // Parameters
   std::string serial_number_;
+  std::string joint_prefix_;
   double publish_rate_;
   double filter_cutoff_freq_;
   double diagnostics_rate_;
