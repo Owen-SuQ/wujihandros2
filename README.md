@@ -74,7 +74,7 @@ sudo apt install -y ros-humble-ros-base ros-humble-robot-state-publisher \
 # 安装 SDK 和驱动
 wget https://github.com/Wuji-Technology-Co-Ltd/wujihandpy/releases/download/v1.3.0/wujihandcpp-1.3.0-amd64.deb
 sudo dpkg -i wujihandcpp-1.3.0-amd64.deb
-sudo dpkg -i ros-humble-wujihand-ros2_0.1.0_amd64.deb
+sudo dpkg -i ros-humble-wujihand_0.1.0_amd64.deb
 ```
 
 </details>
@@ -91,7 +91,7 @@ sudo apt install -y ros-kilted-ros-base ros-kilted-robot-state-publisher \
 # 安装 SDK 和驱动
 wget https://github.com/Wuji-Technology-Co-Ltd/wujihandpy/releases/download/v1.3.0/wujihandcpp-1.3.0-amd64.deb
 sudo dpkg -i wujihandcpp-1.3.0-amd64.deb
-sudo dpkg -i ros-kilted-wujihand-ros2_0.1.0_amd64.deb
+sudo dpkg -i ros-kilted-wujihand_0.1.0_amd64.deb
 ```
 
 </details>
