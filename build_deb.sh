@@ -8,7 +8,7 @@ set -e
 ROS_DISTRO=${1:-kilted}
 VERSION="0.1.0"
 ARCH=$(dpkg --print-architecture)
-PACKAGE_NAME="ros-${ROS_DISTRO}-wujihand-ros2"
+PACKAGE_NAME="ros-${ROS_DISTRO}-wujihand"
 
 echo "Building ${PACKAGE_NAME} ${VERSION} for ${ARCH}..."
 
