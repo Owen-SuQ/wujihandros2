@@ -1,63 +1,59 @@
+"""Launch WujiHand driver with RViz for visualization."""
+
 import os
+import sys
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
+
+# Add launch directory to path for local imports
+sys.path.insert(0, os.path.dirname(__file__))
+from common import get_common_launch_arguments, get_robot_state_publisher_node
 
 
 def generate_launch_description():
     wujihand_bringup_dir = get_package_share_directory("wujihand_bringup")
     wujihand_description_dir = get_package_share_directory("wujihand_description")
 
-    # Default to right hand URDF
-    urdf_file = os.path.join(wujihand_description_dir, "urdf", "right-ros.urdf")
+    hand_name = LaunchConfiguration("hand_name")
+    hand_type = LaunchConfiguration("hand_type")
 
-    serial_number_arg = DeclareLaunchArgument(
-        "serial_number",
-        default_value="",
-        description="Serial number of the WujiHand device",
-    )
+    # Robot state publisher with XACRO processing
+    robot_state_publisher_node = get_robot_state_publisher_node(hand_name, hand_type)
 
-    # Read URDF file directly (not xacro)
-    with open(urdf_file, "r") as f:
-        robot_description = f.read()
-
-    robot_state_publisher_node = Node(
-        package="robot_state_publisher",
-        executable="robot_state_publisher",
-        name="robot_state_publisher",
-        parameters=[{"robot_description": robot_description}],
-        output="screen",
-        emulate_tty=True,
-    )
-
-    # WujiHand driver
+    # WujiHand driver launch
     wujihand_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(wujihand_bringup_dir, "launch", "wujihand.launch.py")
         ),
         launch_arguments={
+            "hand_name": hand_name,
             "serial_number": LaunchConfiguration("serial_number"),
+            "publish_rate": LaunchConfiguration("publish_rate"),
+            "filter_cutoff_freq": LaunchConfiguration("filter_cutoff_freq"),
+            "diagnostics_rate": LaunchConfiguration("diagnostics_rate"),
         }.items(),
     )
 
+    # RViz node with namespace for multi-hand support
     rviz_config = os.path.join(wujihand_description_dir, "rviz", "robot_display.rviz")
-
     rviz_node = Node(
         package="rviz2",
         executable="rviz2",
         name="rviz2",
+        namespace=hand_name,
         arguments=["-d", rviz_config],
         output="screen",
         emulate_tty=True,
     )
 
     return LaunchDescription(
-        [
-            serial_number_arg,
+        get_common_launch_arguments()
+        + [
             robot_state_publisher_node,
             wujihand_launch,
             rviz_node,

@@ -9,6 +9,7 @@ Demonstrates wave motion control:
 Usage:
   1. Start the driver: ros2 launch wujihand_bringup wujihand.launch.py
   2. Run this demo: ros2 run wujihand_bringup wave_demo.py
+  3. For specific hand: ros2 run wujihand_bringup wave_demo.py --ros-args -p hand_name:=left_hand
 """
 
 import math
@@ -23,6 +24,10 @@ class WaveDemo(Node):
     def __init__(self):
         super().__init__("wave_demo")
 
+        # Declare and get hand_name parameter
+        self.declare_parameter("hand_name", "hand_0")
+        hand_name = self.get_parameter("hand_name").get_parameter_value().string_value
+
         # Record start time for time-based calculation
         self.start_time = time.perf_counter()
 
@@ -34,13 +39,15 @@ class WaveDemo(Node):
         self.msg = JointState()
         self.msg.position = [0.0] * 20
 
-        # Publisher for joint commands
-        self.cmd_pub = self.create_publisher(JointState, "/joint_commands", 10)
+        # Publisher for joint commands (with namespace)
+        topic_name = f"/{hand_name}/joint_commands"
+        self.cmd_pub = self.create_publisher(JointState, topic_name, 10)
 
         # Wave motion timer (100Hz)
         self.wave_timer = self.create_timer(0.01, self.wave_callback)
 
-        self.get_logger().info("WujiHand Wave Demo Started (100Hz)")
+        self.get_logger().info(f"WujiHand Wave Demo Started (100Hz)")
+        self.get_logger().info(f"Publishing to: {topic_name}")
         self.get_logger().info("Press Ctrl+C to stop")
 
     def wave_callback(self):

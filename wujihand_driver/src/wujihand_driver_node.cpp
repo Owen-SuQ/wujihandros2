@@ -28,12 +28,14 @@ const std::array<std::string, WujiHandDriverNode::NUM_JOINTS> WujiHandDriverNode
 WujiHandDriverNode::WujiHandDriverNode() : Node("wujihand_driver"), hardware_connected_(false) {
   // Declare parameters
   this->declare_parameter("serial_number", "");
+  this->declare_parameter("joint_prefix", "");
   this->declare_parameter("publish_rate", 1000.0);
   this->declare_parameter("filter_cutoff_freq", 10.0);
   this->declare_parameter("diagnostics_rate", 10.0);
 
   // Get parameters
   serial_number_ = this->get_parameter("serial_number").as_string();
+  joint_prefix_ = this->get_parameter("joint_prefix").as_string();
   publish_rate_ = this->get_parameter("publish_rate").as_double();
   filter_cutoff_freq_ = this->get_parameter("filter_cutoff_freq").as_double();
   diagnostics_rate_ = this->get_parameter("diagnostics_rate").as_double();
@@ -76,10 +78,12 @@ WujiHandDriverNode::WujiHandDriverNode() : Node("wujihand_driver"), hardware_con
                                                                     joint_lower_limits_.end()));
 
   // Initialize pre-allocated JointState message
+  // Joint names are prefixed with joint_prefix_ to match URDF link/joint names
+  // This allows multiple hands to have unique joint names (e.g., hand_0/finger1_joint1)
   joint_state_msg_.name.reserve(NUM_JOINTS);
   joint_state_msg_.position.resize(NUM_JOINTS, 0.0);
   for (size_t i = 0; i < NUM_JOINTS; ++i) {
-    joint_state_msg_.name.push_back(JOINT_NAMES[i]);
+    joint_state_msg_.name.push_back(joint_prefix_ + JOINT_NAMES[i]);
   }
 
   // Create state publish timer (high frequency)
@@ -195,10 +199,12 @@ void WujiHandDriverNode::command_callback(const sensor_msgs::msg::JointState::Sh
   double positions[NUM_FINGERS][JOINTS_PER_FINGER];
 
   if (!msg->name.empty()) {
-    // Named joints - match by name
+    // Named joints - match by name (with or without prefix)
     for (size_t i = 0; i < msg->name.size() && i < msg->position.size(); ++i) {
       for (size_t j = 0; j < NUM_JOINTS; ++j) {
-        if (msg->name[i] == JOINT_NAMES[j]) {
+        // Match either prefixed name or bare name for compatibility
+        if (msg->name[i] == (joint_prefix_ + JOINT_NAMES[j]) ||
+            msg->name[i] == JOINT_NAMES[j]) {
           size_t f = j / JOINTS_PER_FINGER;
           size_t jj = j % JOINTS_PER_FINGER;
           positions[f][jj] = msg->position[i];
