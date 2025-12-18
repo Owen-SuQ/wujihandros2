@@ -8,19 +8,19 @@ from launch.substitutions import Command
 from launch_ros.actions import Node
 
 
-def get_robot_state_publisher_node(hand_name, hand_type):
-    """Create robot_state_publisher node with XACRO processing.
+def get_robot_description_command(hand_name, hand_type):
+    """Get Command substitution for robot_description.
 
     Args:
         hand_name: LaunchConfiguration for hand namespace/prefix
         hand_type: LaunchConfiguration for hand type (left/right)
 
     Returns:
-        Node action for robot_state_publisher
+        Command substitution for xacro processing
     """
     wujihand_description_dir = get_package_share_directory("wujihand_description")
     xacro_file = os.path.join(wujihand_description_dir, "urdf", "wujihand.urdf.xacro")
-    robot_description_content = Command(
+    return Command(
         [
             "xacro ",
             xacro_file,
@@ -31,6 +31,19 @@ def get_robot_state_publisher_node(hand_name, hand_type):
             hand_type,
         ]
     )
+
+
+def get_robot_state_publisher_node(hand_name, hand_type):
+    """Create robot_state_publisher node with XACRO processing.
+
+    Args:
+        hand_name: LaunchConfiguration for hand namespace/prefix
+        hand_type: LaunchConfiguration for hand type (left/right)
+
+    Returns:
+        Node action for robot_state_publisher
+    """
+    robot_description_content = get_robot_description_command(hand_name, hand_type)
 
     return Node(
         package="robot_state_publisher",
@@ -57,8 +70,8 @@ def get_common_launch_arguments():
         ),
         DeclareLaunchArgument(
             "hand_type",
-            default_value="right",
-            description="Hand type: 'left' or 'right'",
+            default_value="auto",
+            description="Hand type: 'left', 'right', or 'auto' (detect from hardware)",
         ),
         DeclareLaunchArgument(
             "serial_number",
