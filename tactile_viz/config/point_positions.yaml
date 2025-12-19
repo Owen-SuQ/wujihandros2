@@ -1,0 +1,32 @@
+# Tactile Visualization Configuration
+# This file configures the 3D positions of tactile sensor points
+
+tactile_viz_node:
+  ros__parameters:
+    # Frame ID for all markers
+    frame_id: "tactile_frame"
+
+    # Publishing rate in Hz
+    publish_rate: 10.0
+
+    # 6x6 Grid configuration
+    # Points are arranged in row-major order (point 0 at origin, point 5 at end of first row)
+    grid:
+      origin:
+        x: 0.0
+        y: 0.0
+        z: 0.0
+      spacing: 0.005  # 5mm between points
+      rows: 6
+      cols: 6
+
+    # Visualization parameters
+    arrow_scale: 0.001    # Multiplier from force value to arrow length (meters)
+    sphere_radius: 0.002  # Radius of point spheres (2mm)
+
+# Future extension: specify individual point positions
+# Uncomment and fill in to override grid positions
+# point_positions:
+#   - {x: 0.0, y: 0.0, z: 0.0}    # Point 0
+#   - {x: 0.005, y: 0.0, z: 0.0}  # Point 1
+#   # ... continue for all 36 points

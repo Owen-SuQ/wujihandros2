@@ -13,3 +13,5 @@ debian/
 # Python
 __pycache__/
 *.pyc
+
+CLAUDE.md
