@@ -11,30 +11,32 @@ from launch_ros.actions import Node
 def get_robot_description_command(hand_name, hand_type):
     """Get Command substitution for robot_description.
 
+    Uses separate xacro files for left/right hands with prefix support.
+
     Args:
         hand_name: LaunchConfiguration for hand namespace/prefix
         hand_type: LaunchConfiguration for hand type (left/right)
 
     Returns:
-        Command substitution for xacro processing
+        Command substitution for xacro processing with prefix
     """
     wujihand_description_dir = get_package_share_directory("wujihand_description")
-    xacro_file = os.path.join(wujihand_description_dir, "urdf", "wujihand.urdf.xacro")
+    # Use separate xacro files for left/right hands
     return Command(
         [
             "xacro ",
-            xacro_file,
-            " prefix:=",
+            wujihand_description_dir,
+            "/urdf/",
+            hand_type,
+            ".urdf.xacro prefix:=",
             hand_name,
             "/",
-            " hand_type:=",
-            hand_type,
         ]
     )
 
 
 def get_robot_state_publisher_node(hand_name, hand_type):
-    """Create robot_state_publisher node with XACRO processing.
+    """Create robot_state_publisher node with URDF processing.
 
     Args:
         hand_name: LaunchConfiguration for hand namespace/prefix

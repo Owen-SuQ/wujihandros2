@@ -38,7 +38,6 @@ def spawn_robot_state_publisher_auto(context):
 
     driver_node_name = f"/{hand_name}/wujihand_driver"
     wujihand_description_dir = get_package_share_directory("wujihand_description")
-    xacro_file = os.path.join(wujihand_description_dir, "urdf", "wujihand.urdf.xacro")
 
     # Poll for handedness parameter (retry up to 30 times with 0.5s interval)
     hand_type = None
@@ -68,22 +67,24 @@ def spawn_robot_state_publisher_auto(context):
 
     print(f"[INFO] Detected handedness: {hand_type}")
 
-    # Generate URDF using xacro
+    # Use xacro to process the URDF with prefix
+    xacro_file = os.path.join(
+        wujihand_description_dir, "urdf", f"{hand_type}.urdf.xacro"
+    )
+    prefix = f"{hand_name}/"
     try:
         result = subprocess.run(
-            [
-                "xacro",
-                xacro_file,
-                f"prefix:={hand_name}/",
-                f"hand_type:={hand_type}",
-            ],
+            ["xacro", xacro_file, f"prefix:={prefix}"],
             capture_output=True,
             text=True,
-            check=True,
+            timeout=10.0,
         )
+        if result.returncode != 0:
+            print(f"[ERROR] xacro failed: {result.stderr}")
+            return []
         robot_description = result.stdout
-    except subprocess.CalledProcessError as e:
-        print(f"[ERROR] Failed to process xacro: {e.stderr}")
+    except Exception as e:
+        print(f"[ERROR] Failed to process xacro: {e}")
         return []
 
     # Return robot_state_publisher node with URDF string as parameter
