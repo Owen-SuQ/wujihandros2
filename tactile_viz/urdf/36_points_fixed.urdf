@@ -1,0 +1,471 @@
+<?xml version="1.0"?>
+<robot name="36_points_robot">
+  <!-- Base link - center reference point -->
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <sphere radius="0.02"/>
+      </geometry>
+      <material name="black">
+        <color rgba="0.2 0.2 0.2 1"/>
+      </material>
+    </visual>
+  </link>
+
+  <!-- Surface mesh link - the triangulated surface containing all 36 points -->
+  <link name="surface_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="-1.57 0 0"/>
+      <geometry>
+        <mesh filename="package://tactile_viz/meshes/36_points/surface_mesh.STL" scale="10 10 10"/>
+      </geometry>
+      <material name="surface_material">
+        <color rgba="0.8 0.8 0.9 0.7"/>
+      </material>
+    </visual>
+  </link>
+  <joint name="surface_joint" type="fixed">
+    <parent link="base_link"/><child link="surface_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Row 1: Points 1-6 (Red) - Y=0 -->
+  <link name="point_link_1">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name="red"><color rgba="1 0.2 0.2 1"/></material>
+    </visual>
+  </link>
+  <joint name="joint_1" type="fixed">
+    <parent link="base_link"/><child link="point_link_1"/>
+    <origin xyz="0.8060 0.0000 0.3480" rpy="0 0 0"/>
+  </joint>
+
+  <link name="point_link_2">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name="red"><color rgba="1 0.2 0.2 1"/></material>
+    </visual>
+  </link>
+  <joint name="joint_2" type="fixed">
+    <parent link="base_link"/><child link="point_link_2"/>
+    <origin xyz="0.4840 0.0000 0.7780" rpy="0 0 0"/>
+  </joint>
+
+  <link name="point_link_3">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name="red"><color rgba="1 0.2 0.2 1"/></material>
+    </visual>
+  </link>
+  <joint name="joint_3" type="fixed">
+    <parent link="base_link"/><child link="point_link_3"/>
+    <origin xyz="0.1610 0.0000 0.9380" rpy="0 0 0"/>
+  </joint>
+
+  <link name="point_link_4">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name="red"><color rgba="1 0.2 0.2 1"/></material>
+    </visual>
+  </link>
+  <joint name="joint_4" type="fixed">
+    <parent link="base_link"/><child link="point_link_4"/>
+    <origin xyz="-0.1620 0.0000 0.9380" rpy="0 0 0"/>
+  </joint>
+
+  <link name="point_link_5">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name="red"><color rgba="1 0.2 0.2 1"/></material>
+    </visual>
+  </link>
+  <joint name="joint_5" type="fixed">
+    <parent link="base_link"/><child link="point_link_5"/>
+    <origin xyz="-0.4840 0.0000 0.7780" rpy="0 0 0"/>
+  </joint>
+
+  <link name="point_link_6">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name="red"><color rgba="1 0.2 0.2 1"/></material>
+    </visual>
+  </link>
+  <joint name="joint_6" type="fixed">
+    <parent link="base_link"/><child link="point_link_6"/>
+    <origin xyz="-0.8070 0.0000 0.3480" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Row 2: Points 7-12 (Orange) - Y~=45.8mm -->
+  <link name="point_link_7">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name="orange"><color rgba="1 0.6 0.2 1"/></material>
+    </visual>
+  </link>
+  <joint name="joint_7" type="fixed">
+    <parent link="base_link"/><child link="point_link_7"/>
+    <origin xyz="0.7730 0.4580 0.4240" rpy="0 0 0"/>
+  </joint>
+
+  <link name="point_link_8">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name="orange"><color rgba="1 0.6 0.2 1"/></material>
+    </visual>
+  </link>
+  <joint name="joint_8" type="fixed">
+    <parent link="base_link"/><child link="point_link_8"/>
+    <origin xyz="0.4640 0.4580 0.7980" rpy="0 0 0"/>
+  </joint>
+
+  <link name="point_link_9">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name="orange"><color rgba="1 0.6 0.2 1"/></material>
+    </visual>
+  </link>
+  <joint name="joint_9" type="fixed">
+    <parent link="base_link"/><child link="point_link_9"/>
+    <origin xyz="0.1480 0.4590 0.9320" rpy="0 0 0"/>
+  </joint>
+
+  <link name="point_link_10">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name="orange"><color rgba="1 0.6 0.2 1"/></material>
+    </visual>
+  </link>
+  <joint name="joint_10" type="fixed">
+    <parent link="base_link"/><child link="point_link_10"/>
+    <origin xyz="-0.1650 0.4590 0.9260" rpy="0 0 0"/>
+  </joint>
+
+  <link name="point_link_11">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name="orange"><color rgba="1 0.6 0.2 1"/></material>
+    </visual>
+  </link>
+  <joint name="joint_11" type="fixed">
+    <parent link="base_link"/><child link="point_link_11"/>
+    <origin xyz="-0.4780 0.4590 0.7800" rpy="0 0 0"/>
+  </joint>
+
+  <link name="point_link_12">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name="orange"><color rgba="1 0.6 0.2 1"/></material>
+    </visual>
+  </link>
+  <joint name="joint_12" type="fixed">
+    <parent link="base_link"/><child link="point_link_12"/>
+    <origin xyz="-0.7910 0.4600 0.3940" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Row 3: Points 13-18 (Yellow) - Y~=92.5mm -->
+  <link name="point_link_13">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name="yellow"><color rgba="1 1 0.2 1"/></material>
+    </visual>
+  </link>
+  <joint name="joint_13" type="fixed">
+    <parent link="base_link"/><child link="point_link_13"/>
+    <origin xyz="0.7560 0.9250 0.4070" rpy="0 0 0"/>
+  </joint>
+
+  <link name="point_link_14">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name="yellow"><color rgba="1 1 0.2 1"/></material>
+    </visual>
+  </link>
+  <joint name="joint_14" type="fixed">
+    <parent link="base_link"/><child link="point_link_14"/>
+    <origin xyz="0.4540 0.9250 0.7280" rpy="0 0 0"/>
+  </joint>
+
+  <link name="point_link_15">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name="yellow"><color rgba="1 1 0.2 1"/></material>
+    </visual>
+  </link>
+  <joint name="joint_15" type="fixed">
+    <parent link="base_link"/><child link="point_link_15"/>
+    <origin xyz="0.1520 0.9250 0.8500" rpy="0 0 0"/>
+  </joint>
+
+  <link name="point_link_16">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name="yellow"><color rgba="1 1 0.2 1"/></material>
+    </visual>
+  </link>
+  <joint name="joint_16" type="fixed">
+    <parent link="base_link"/><child link="point_link_16"/>
+    <origin xyz="-0.1500 0.9250 0.8510" rpy="0 0 0"/>
+  </joint>
+
+  <link name="point_link_17">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name="yellow"><color rgba="1 1 0.2 1"/></material>
+    </visual>
+  </link>
+  <joint name="joint_17" type="fixed">
+    <parent link="base_link"/><child link="point_link_17"/>
+    <origin xyz="-0.4510 0.9250 0.7320" rpy="0 0 0"/>
+  </joint>
+
+  <link name="point_link_18">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name="yellow"><color rgba="1 1 0.2 1"/></material>
+    </visual>
+  </link>
+  <joint name="joint_18" type="fixed">
+    <parent link="base_link"/><child link="point_link_18"/>
+    <origin xyz="-0.7530 0.9250 0.4140" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Row 4: Points 19-24 (Green) - Y~=138.9mm -->
+  <link name="point_link_19">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name="green"><color rgba="0.2 1 0.2 1"/></material>
+    </visual>
+  </link>
+  <joint name="joint_19" type="fixed">
+    <parent link="base_link"/><child link="point_link_19"/>
+    <origin xyz="0.6490 1.3890 0.3670" rpy="0 0 0"/>
+  </joint>
+
+  <link name="point_link_20">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name="green"><color rgba="0.2 1 0.2 1"/></material>
+    </visual>
+  </link>
+  <joint name="joint_20" type="fixed">
+    <parent link="base_link"/><child link="point_link_20"/>
+    <origin xyz="0.3890 1.3890 0.5870" rpy="0 0 0"/>
+  </joint>
+
+  <link name="point_link_21">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name="green"><color rgba="0.2 1 0.2 1"/></material>
+    </visual>
+  </link>
+  <joint name="joint_21" type="fixed">
+    <parent link="base_link"/><child link="point_link_21"/>
+    <origin xyz="0.1290 1.3890 0.6670" rpy="0 0 0"/>
+  </joint>
+
+  <link name="point_link_22">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name="green"><color rgba="0.2 1 0.2 1"/></material>
+    </visual>
+  </link>
+  <joint name="joint_22" type="fixed">
+    <parent link="base_link"/><child link="point_link_22"/>
+    <origin xyz="-0.1300 1.3890 0.6670" rpy="0 0 0"/>
+  </joint>
+
+  <link name="point_link_23">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name="green"><color rgba="0.2 1 0.2 1"/></material>
+    </visual>
+  </link>
+  <joint name="joint_23" type="fixed">
+    <parent link="base_link"/><child link="point_link_23"/>
+    <origin xyz="-0.3900 1.3890 0.5870" rpy="0 0 0"/>
+  </joint>
+
+  <link name="point_link_24">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name="green"><color rgba="0.2 1 0.2 1"/></material>
+    </visual>
+  </link>
+  <joint name="joint_24" type="fixed">
+    <parent link="base_link"/><child link="point_link_24"/>
+    <origin xyz="-0.6510 1.3880 0.3570" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Row 5: Points 25-30 (Cyan) - Y~=161.3mm -->
+  <link name="point_link_25">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name="cyan"><color rgba="0.2 1 1 1"/></material>
+    </visual>
+  </link>
+  <joint name="joint_25" type="fixed">
+    <parent link="base_link"/><child link="point_link_25"/>
+    <origin xyz="0.4860 1.6140 0.3650" rpy="0 0 0"/>
+  </joint>
+
+  <link name="point_link_26">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name="cyan"><color rgba="0.2 1 1 1"/></material>
+    </visual>
+  </link>
+  <joint name="joint_26" type="fixed">
+    <parent link="base_link"/><child link="point_link_26"/>
+    <origin xyz="0.2910 1.6130 0.4750" rpy="0 0 0"/>
+  </joint>
+
+  <link name="point_link_27">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name="cyan"><color rgba="0.2 1 1 1"/></material>
+    </visual>
+  </link>
+  <joint name="joint_27" type="fixed">
+    <parent link="base_link"/><child link="point_link_27"/>
+    <origin xyz="0.0960 1.6130 0.5250" rpy="0 0 0"/>
+  </joint>
+
+  <link name="point_link_28">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name="cyan"><color rgba="0.2 1 1 1"/></material>
+    </visual>
+  </link>
+  <joint name="joint_28" type="fixed">
+    <parent link="base_link"/><child link="point_link_28"/>
+    <origin xyz="-0.0990 1.6130 0.5250" rpy="0 0 0"/>
+  </joint>
+
+  <link name="point_link_29">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name="cyan"><color rgba="0.2 1 1 1"/></material>
+    </visual>
+  </link>
+  <joint name="joint_29" type="fixed">
+    <parent link="base_link"/><child link="point_link_29"/>
+    <origin xyz="-0.2930 1.6130 0.4750" rpy="0 0 0"/>
+  </joint>
+
+  <link name="point_link_30">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name="cyan"><color rgba="0.2 1 1 1"/></material>
+    </visual>
+  </link>
+  <joint name="joint_30" type="fixed">
+    <parent link="base_link"/><child link="point_link_30"/>
+    <origin xyz="-0.4880 1.6120 0.3650" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Row 6: Points 31-36 (Blue) - Y~=179.2mm (tip) -->
+  <link name="point_link_31">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name="blue"><color rgba="0.2 0.4 1 1"/></material>
+    </visual>
+  </link>
+  <joint name="joint_31" type="fixed">
+    <parent link="base_link"/><child link="point_link_31"/>
+    <origin xyz="0.2660 1.7920 0.3110" rpy="0 0 0"/>
+  </joint>
+
+  <link name="point_link_32">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name="blue"><color rgba="0.2 0.4 1 1"/></material>
+    </visual>
+  </link>
+  <joint name="joint_32" type="fixed">
+    <parent link="base_link"/><child link="point_link_32"/>
+    <origin xyz="0.1580 1.7920 0.3410" rpy="0 0 0"/>
+  </joint>
+
+  <link name="point_link_33">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name="blue"><color rgba="0.2 0.4 1 1"/></material>
+    </visual>
+  </link>
+  <joint name="joint_33" type="fixed">
+    <parent link="base_link"/><child link="point_link_33"/>
+    <origin xyz="0.0510 1.7920 0.3610" rpy="0 0 0"/>
+  </joint>
+
+  <link name="point_link_34">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name="blue"><color rgba="0.2 0.4 1 1"/></material>
+    </visual>
+  </link>
+  <joint name="joint_34" type="fixed">
+    <parent link="base_link"/><child link="point_link_34"/>
+    <origin xyz="-0.0560 1.7920 0.3610" rpy="0 0 0"/>
+  </joint>
+
+  <link name="point_link_35">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name="blue"><color rgba="0.2 0.4 1 1"/></material>
+    </visual>
+  </link>
+  <joint name="joint_35" type="fixed">
+    <parent link="base_link"/><child link="point_link_35"/>
+    <origin xyz="-0.1630 1.7910 0.3410" rpy="0 0 0"/>
+  </joint>
+
+  <link name="point_link_36">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name="blue"><color rgba="0.2 0.4 1 1"/></material>
+    </visual>
+  </link>
+  <joint name="joint_36" type="fixed">
+    <parent link="base_link"/><child link="point_link_36"/>
+    <origin xyz="-0.2700 1.7910 0.3110" rpy="0 0 0"/>
+  </joint>
+
+</robot>

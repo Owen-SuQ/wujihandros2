@@ -3,6 +3,7 @@ Launch file for tactile visualization with Foxglove
 
 Starts:
 - tactile_viz_node: Reads tactile data and publishes MarkerArray
+- robot_state_publisher: Publishes 36_points.urdf for reference visualization
 - foxglove_bridge: WebSocket bridge for Foxglove/Lichtblick (ws://localhost:8765)
 """
 
@@ -20,12 +21,29 @@ def generate_launch_description():
 
     # Paths to config files
     config_file = os.path.join(pkg_share, 'config', 'point_positions.yaml')
+    urdf_file = os.path.join(pkg_share, 'urdf', '36_points_fixed.urdf')
+
+    # Read URDF file content
+    with open(urdf_file, 'r') as f:
+        robot_description = f.read()
 
     # Declare launch arguments
     port_arg = DeclareLaunchArgument(
         'port',
         default_value='8765',
         description='Foxglove bridge WebSocket port'
+    )
+
+    # Robot state publisher for URDF visualization
+    robot_state_publisher_node = Node(
+        package='robot_state_publisher',
+        executable='robot_state_publisher',
+        name='robot_state_publisher',
+        output='screen',
+        parameters=[{
+            'robot_description': robot_description,
+            'publish_frequency': 10.0,
+        }],
     )
 
     # Tactile visualization node
@@ -49,6 +67,7 @@ def generate_launch_description():
                 'send_buffer_limit': 50000000,
                 'use_sim_time': False,
                 'max_qos_depth': 10,
+                'asset_uri_allowlist': ['package://.*'],
             }
         ],
         output='screen',
@@ -56,6 +75,7 @@ def generate_launch_description():
 
     return LaunchDescription([
         port_arg,
+        robot_state_publisher_node,
         tactile_viz_node,
         foxglove_bridge_node,
     ])

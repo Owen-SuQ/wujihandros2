@@ -82,8 +82,31 @@ target_link_libraries(tactile_stats_node
   ${WUJIHANDCPP_LIBRARY}
 )
 
+# Build filter_demo_node executable
+add_executable(filter_demo_node
+  src/filter_demo_node.cpp
+)
+
+target_include_directories(filter_demo_node PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+  ${WUJIHANDCPP_INCLUDE_DIR}
+)
+
+target_compile_definitions(filter_demo_node PRIVATE
+  TACTILE_VIZ_LOG_DIR="${CMAKE_CURRENT_SOURCE_DIR}/log"
+)
+
+ament_target_dependencies(filter_demo_node
+  rclcpp
+)
+
+target_link_libraries(filter_demo_node
+  ${WUJIHANDCPP_LIBRARY}
+)
+
 # Install executables
-install(TARGETS tactile_viz_node tactile_stats_node
+install(TARGETS tactile_viz_node tactile_stats_node filter_demo_node
   DESTINATION lib/${PROJECT_NAME}
 )
 
@@ -100,6 +123,22 @@ install(DIRECTORY config/
 # Install rviz files
 install(DIRECTORY rviz/
   DESTINATION share/${PROJECT_NAME}/rviz
+)
+
+# Install urdf files
+install(DIRECTORY urdf/
+  DESTINATION share/${PROJECT_NAME}/urdf
+)
+
+# Install mesh files
+install(DIRECTORY meshes/
+  DESTINATION share/${PROJECT_NAME}/meshes
+)
+
+# Install scripts
+install(DIRECTORY scripts/
+  DESTINATION share/${PROJECT_NAME}/scripts
+  USE_SOURCE_PERMISSIONS
 )
 
 ament_package()

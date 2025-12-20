@@ -1,34 +1,25 @@
 # Tactile Visualization Configuration
-# This file configures the 3D positions of tactile sensor points
+# Point positions are now loaded from URDF definition (36_points.urdf)
+# This file configures visualization parameters only
 
 tactile_viz_node:
   ros__parameters:
-    # Frame ID for all markers
-    frame_id: "tactile_frame"
+    # Frame ID for all markers (matches URDF base frame)
+    frame_id: "base_link"
 
     # Publishing rate in Hz
-    publish_rate: 10.0
-
-    # 6x6 Grid configuration
-    # Points are arranged in row-major order (point 0 at origin, point 5 at end of first row)
-    grid:
-      origin:
-        x: 0.0
-        y: 0.0
-        z: 0.0
-      spacing: 0.5  # 5mm between points
-      rows: 6
-      cols: 6
+    publish_rate: 50.0
 
     # Visualization parameters
-    arrow_scale: 0.1    # Multiplier from force value to arrow length (meters)
-    sphere_radius: 0.2  # Radius of point spheres
-    arrow_shaft_diameter: 0.05  # Arrow shaft diameter
-    arrow_head_diameter: 0.1    # Arrow head diameter
+    position_scale: 10.0    # Scale factor for point positions (10x to match URDF)
+    arrow_scale: 0.01       # Multiplier from force value to arrow length (meters)
+    arrow_shaft_diameter: 0.02   # Arrow shaft diameter (20mm)
+    arrow_head_diameter: 0.04    # Arrow head diameter (40mm)
+    arrow_z_offset: 0.02         # Z offset for arrows to avoid mesh overlap (20mm)
 
-# Future extension: specify individual point positions
-# Uncomment and fill in to override grid positions
-# point_positions:
-#   - {x: 0.0, y: 0.0, z: 0.0}    # Point 0
-#   - {x: 0.005, y: 0.0, z: 0.0}  # Point 1
-#   # ... continue for all 36 points
+    # Smoothing and filtering
+    smoothing_alpha: 0.3    # Exponential smoothing factor (0-1, lower = smoother)
+    force_threshold_show: 5.0   # Force threshold to show arrow
+    force_threshold_hide: 2.0   # Force threshold to hide arrow (hysteresis)
+    max_slope: 500.0        # Max allowed slope (N/s), reject data with higher rate of change
+    slope_filter_enabled: true  # Enable/disable slope-based outlier filtering

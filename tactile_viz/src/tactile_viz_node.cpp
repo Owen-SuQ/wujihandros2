@@ -30,18 +30,13 @@ public:
         , handler_(0x0483, -1, nullptr, 64, 0)  // Connect to any wujihand device
     {
         // Declare parameters
-        declare_parameter("frame_id", "tactile_frame");
-        declare_parameter("publish_rate", 10.0);
-        declare_parameter("grid.origin.x", 0.0);
-        declare_parameter("grid.origin.y", 0.0);
-        declare_parameter("grid.origin.z", 0.0);
-        declare_parameter("grid.spacing", 0.005);  // 5mm spacing
-        declare_parameter("grid.rows", 6);
-        declare_parameter("grid.cols", 6);
-        declare_parameter("arrow_scale", 0.001);   // Scale factor for force to arrow length
-        declare_parameter("sphere_radius", 0.002); // 2mm sphere radius
-        declare_parameter("arrow_shaft_diameter", 0.001);  // Arrow shaft diameter
-        declare_parameter("arrow_head_diameter", 0.002);   // Arrow head diameter
+        declare_parameter("frame_id", "base_link");  // Match URDF base frame
+        declare_parameter("publish_rate", 50.0);
+        declare_parameter("position_scale", 10.0);  // Scale factor for point positions (10x to match URDF)
+        declare_parameter("arrow_scale", 0.01);    // Scale factor for force to arrow length
+        declare_parameter("arrow_shaft_diameter", 0.02);   // Arrow shaft diameter (20mm)
+        declare_parameter("arrow_head_diameter", 0.04);    // Arrow head diameter (40mm)
+        declare_parameter("arrow_z_offset", 0.02);        // Z offset for arrows to avoid mesh overlap (20mm)
         declare_parameter("smoothing_alpha", 0.3); // Exponential smoothing factor (0-1, lower = smoother)
         declare_parameter("force_threshold_show", 5.0);  // Force threshold to show arrow
         declare_parameter("force_threshold_hide", 2.0);  // Force threshold to hide arrow (hysteresis)
@@ -51,16 +46,11 @@ public:
         // Get parameters
         frame_id_ = get_parameter("frame_id").as_string();
         double publish_rate = get_parameter("publish_rate").as_double();
-        double origin_x = get_parameter("grid.origin.x").as_double();
-        double origin_y = get_parameter("grid.origin.y").as_double();
-        double origin_z = get_parameter("grid.origin.z").as_double();
-        double spacing = get_parameter("grid.spacing").as_double();
-        int rows = get_parameter("grid.rows").as_int();
-        int cols = get_parameter("grid.cols").as_int();
+        position_scale_ = get_parameter("position_scale").as_double();
         arrow_scale_ = get_parameter("arrow_scale").as_double();
-        sphere_radius_ = get_parameter("sphere_radius").as_double();
         arrow_shaft_diameter_ = get_parameter("arrow_shaft_diameter").as_double();
         arrow_head_diameter_ = get_parameter("arrow_head_diameter").as_double();
+        arrow_z_offset_ = get_parameter("arrow_z_offset").as_double();
         smoothing_alpha_ = get_parameter("smoothing_alpha").as_double();
         force_threshold_show_ = get_parameter("force_threshold_show").as_double();
         force_threshold_hide_ = get_parameter("force_threshold_hide").as_double();
@@ -79,11 +69,11 @@ public:
         last_update_time_ = now();
         first_sample_ = true;
 
-        // Initialize 6x6 grid positions
-        initialize_grid_positions(origin_x, origin_y, origin_z, spacing, rows, cols);
+        // Initialize point positions from URDF definition (36_points.urdf)
+        initialize_urdf_positions();
 
         // Create publisher
-        marker_pub_ = create_publisher<MarkerArray>("/tactile_markers", 10);
+        marker_pub_ = create_publisher<MarkerArray>("/tactile_markers", 50);
 
         // Create static transform broadcaster for tactile frame
         tf_broadcaster_ = std::make_shared<tf2_ros::StaticTransformBroadcaster>(this);
@@ -98,23 +88,75 @@ public:
         RCLCPP_INFO(get_logger(), "Tactile visualization node started");
         RCLCPP_INFO(get_logger(), "  Frame ID: %s", frame_id_.c_str());
         RCLCPP_INFO(get_logger(), "  Publish rate: %.1f Hz", publish_rate);
-        RCLCPP_INFO(get_logger(), "  Grid: %dx%d, spacing: %.3f m", rows, cols, spacing);
+        RCLCPP_INFO(get_logger(), "  Position scale: %.1fx (force arrows only, spheres from URDF)", position_scale_);
     }
 
 private:
-    void initialize_grid_positions(double origin_x, double origin_y, double origin_z,
-                                    double spacing, int rows, int cols) {
-        // Create 6x6 grid of point positions
-        // Points are arranged in row-major order
-        for (int row = 0; row < rows && row < 6; ++row) {
-            for (int col = 0; col < cols && col < 6; ++col) {
-                int idx = row * cols + col;
-                if (idx < 36) {
-                    point_positions_[idx].x = origin_x + col * spacing;
-                    point_positions_[idx].y = origin_y + row * spacing;
-                    point_positions_[idx].z = origin_z;
-                }
-            }
+    void initialize_urdf_positions() {
+        // Point positions from 36_points.urdf
+        // Extracted from joint origins: <origin xyz="x y z" .../>
+        // URDF uses point IDs 1-36, array indices are 0-35
+        //
+        // Row 1 (Points 1-6): Y=0, red points at fingertip base
+        // Row 2 (Points 7-12): Y~=4.58mm, orange
+        // Row 3 (Points 13-18): Y~=9.25mm, yellow
+        // Row 4 (Points 19-24): Y~=13.89mm, green
+        // Row 5 (Points 25-30): Y~=16.13mm, cyan
+        // Row 6 (Points 31-36): Y~=17.92mm, blue points at fingertip
+
+        // Row 1: Points 1-6 (Red) - Y=0
+        point_positions_[0]  = {0.0806,  0.0,     0.0348};  // Point 1
+        point_positions_[1]  = {0.0484,  0.0,     0.0778};  // Point 2
+        point_positions_[2]  = {0.0161,  0.0,     0.0938};  // Point 3
+        point_positions_[3]  = {-0.0162, 0.0,     0.0938};  // Point 4
+        point_positions_[4]  = {-0.0484, 0.0,     0.0778};  // Point 5
+        point_positions_[5]  = {-0.0807, 0.0,     0.0348};  // Point 6
+
+        // Row 2: Points 7-12 (Orange) - Y~=4.58mm
+        point_positions_[6]  = {0.0773,  0.0458,  0.0424};  // Point 7
+        point_positions_[7]  = {0.0464,  0.0458,  0.0798};  // Point 8
+        point_positions_[8]  = {0.0148,  0.0459,  0.0932};  // Point 9
+        point_positions_[9]  = {-0.0165, 0.0459,  0.0926};  // Point 10
+        point_positions_[10] = {-0.0478, 0.0459,  0.0780};  // Point 11
+        point_positions_[11] = {-0.0791, 0.0460,  0.0394};  // Point 12
+
+        // Row 3: Points 13-18 (Yellow) - Y~=9.25mm
+        point_positions_[12] = {0.0756,  0.0925,  0.0407};  // Point 13
+        point_positions_[13] = {0.0454,  0.0925,  0.0728};  // Point 14
+        point_positions_[14] = {0.0152,  0.0925,  0.0850};  // Point 15
+        point_positions_[15] = {-0.0150, 0.0925,  0.0851};  // Point 16
+        point_positions_[16] = {-0.0451, 0.0925,  0.0732};  // Point 17
+        point_positions_[17] = {-0.0753, 0.0925,  0.0414};  // Point 18
+
+        // Row 4: Points 19-24 (Green) - Y~=13.89mm
+        point_positions_[18] = {0.0649,  0.1389,  0.0367};  // Point 19
+        point_positions_[19] = {0.0389,  0.1389,  0.0587};  // Point 20
+        point_positions_[20] = {0.0129,  0.1389,  0.0667};  // Point 21
+        point_positions_[21] = {-0.0130, 0.1389,  0.0667};  // Point 22
+        point_positions_[22] = {-0.0390, 0.1389,  0.0587};  // Point 23
+        point_positions_[23] = {-0.0651, 0.1388,  0.0357};  // Point 24
+
+        // Row 5: Points 25-30 (Cyan) - Y~=16.13mm
+        point_positions_[24] = {0.0486,  0.1614,  0.0365};  // Point 25
+        point_positions_[25] = {0.0291,  0.1613,  0.0475};  // Point 26
+        point_positions_[26] = {0.0096,  0.1613,  0.0525};  // Point 27
+        point_positions_[27] = {-0.0099, 0.1613,  0.0525};  // Point 28
+        point_positions_[28] = {-0.0293, 0.1613,  0.0475};  // Point 29
+        point_positions_[29] = {-0.0488, 0.1612,  0.0365};  // Point 30
+
+        // Row 6: Points 31-36 (Blue) - Y~=17.92mm (fingertip)
+        point_positions_[30] = {0.0266,  0.1792,  0.0311};  // Point 31
+        point_positions_[31] = {0.0158,  0.1792,  0.0341};  // Point 32
+        point_positions_[32] = {0.0051,  0.1792,  0.0361};  // Point 33
+        point_positions_[33] = {-0.0056, 0.1792,  0.0361};  // Point 34
+        point_positions_[34] = {-0.0163, 0.1791,  0.0341};  // Point 35
+        point_positions_[35] = {-0.0270, 0.1791,  0.0311};  // Point 36
+
+        // Apply position scale to all points
+        for (int i = 0; i < 36; ++i) {
+            point_positions_[i].x *= position_scale_;
+            point_positions_[i].y *= position_scale_;
+            point_positions_[i].z *= position_scale_;
         }
     }
 
@@ -122,7 +164,7 @@ private:
         geometry_msgs::msg::TransformStamped transform;
         transform.header.stamp = now();
         transform.header.frame_id = "world";
-        transform.child_frame_id = frame_id_;
+        transform.child_frame_id = "base_link";  // Always publish world -> base_link
         transform.transform.translation.x = 0.0;
         transform.transform.translation.y = 0.0;
         transform.transform.translation.z = 0.0;
@@ -181,32 +223,13 @@ private:
             double fz = smoothed_forces_[i].z;
             double force_magnitude = std::sqrt(fx*fx + fy*fy + fz*fz);
 
-            // Sphere marker at point position
-            Marker sphere;
-            sphere.header.frame_id = frame_id_;
-            sphere.header.stamp = stamp;
-            sphere.ns = "tactile_points";
-            sphere.id = i;
-            sphere.type = Marker::SPHERE;
-            sphere.action = Marker::ADD;
-            sphere.pose.position.x = point_positions_[i].x;
-            sphere.pose.position.y = point_positions_[i].y;
-            sphere.pose.position.z = point_positions_[i].z;
-            sphere.pose.orientation.w = 1.0;
-            sphere.scale.x = sphere_radius_ * 2;
-            sphere.scale.y = sphere_radius_ * 2;
-            sphere.scale.z = sphere_radius_ * 2;
-
             // Color based on force magnitude (blue -> green -> red)
             double normalized_force = std::min(force_magnitude / 500.0, 1.0);
-            sphere.color.r = static_cast<float>(normalized_force);
-            sphere.color.g = static_cast<float>(1.0 - std::abs(normalized_force - 0.5) * 2);
-            sphere.color.b = static_cast<float>(1.0 - normalized_force);
-            sphere.color.a = 1.0f;
+            float color_r = static_cast<float>(normalized_force);
+            float color_g = static_cast<float>(1.0 - std::abs(normalized_force - 0.5) * 2);
+            float color_b = static_cast<float>(1.0 - normalized_force);
 
-            markers.markers.push_back(sphere);
-
-            // Arrow marker for force vector
+            // Arrow marker for force vector (spheres are shown via URDF)
             Marker arrow;
             arrow.header.frame_id = frame_id_;
             arrow.header.stamp = stamp;
@@ -224,11 +247,11 @@ private:
             if (arrow_visible_[i]) {  // Show arrow based on hysteresis state
                 arrow.action = Marker::ADD;
 
-                // Arrow defined by start and end points
+                // Arrow defined by start and end points (with z offset to avoid mesh overlap)
                 geometry_msgs::msg::Point start, end;
                 start.x = point_positions_[i].x;
                 start.y = point_positions_[i].y;
-                start.z = point_positions_[i].z;
+                start.z = point_positions_[i].z + arrow_z_offset_;
 
                 // Scale force to arrow length
                 double arrow_length = force_magnitude * arrow_scale_;
@@ -245,10 +268,10 @@ private:
                 arrow.scale.y = arrow_head_diameter_;   // Head diameter
                 arrow.scale.z = arrow_head_diameter_;   // Head length
 
-                // Color: same as sphere
-                arrow.color.r = sphere.color.r;
-                arrow.color.g = sphere.color.g;
-                arrow.color.b = sphere.color.b;
+                // Color based on force magnitude
+                arrow.color.r = color_r;
+                arrow.color.g = color_g;
+                arrow.color.b = color_b;
                 arrow.color.a = 1.0f;
             } else {
                 // Delete marker when force is too small
@@ -305,10 +328,10 @@ private:
             resultant_arrow.action = Marker::ADD;
 
             geometry_msgs::msg::Point start, end;
-            // Center of grid
+            // Center of grid (with z offset to avoid mesh overlap)
             start.x = point_positions_[17].x;  // Approximately center
             start.y = point_positions_[17].y;
-            start.z = point_positions_[17].z;
+            start.z = point_positions_[17].z + arrow_z_offset_;
 
             double arrow_length = rf_magnitude * arrow_scale_ * 2;  // Larger for resultant
             end.x = start.x + (rfx / rf_magnitude) * arrow_length;
@@ -370,10 +393,11 @@ private:
 
     // Configuration
     std::string frame_id_;
+    double position_scale_;
     double arrow_scale_;
-    double sphere_radius_;
     double arrow_shaft_diameter_;
     double arrow_head_diameter_;
+    double arrow_z_offset_;
     double smoothing_alpha_;
     double force_threshold_show_;
     double force_threshold_hide_;
