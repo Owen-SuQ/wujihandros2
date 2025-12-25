@@ -31,7 +31,7 @@ public:
     {
         // Declare parameters
         declare_parameter("frame_id", "base_link");  // Match URDF base frame
-        declare_parameter("publish_rate", 50.0);
+        declare_parameter("publish_rate", 100.0);
         declare_parameter("position_scale", 10.0);  // Scale factor for point positions (10x to match URDF)
         declare_parameter("arrow_scale", 0.01);    // Scale factor for force to arrow length
         declare_parameter("arrow_shaft_diameter", 0.02);   // Arrow shaft diameter (20mm)
@@ -73,7 +73,7 @@ public:
         initialize_urdf_positions();
 
         // Create publisher
-        marker_pub_ = create_publisher<MarkerArray>("/tactile_markers", 50);
+        marker_pub_ = create_publisher<MarkerArray>("/tactile_markers", 100);
 
         // Create static transform broadcaster for tactile frame
         tf_broadcaster_ = std::make_shared<tf2_ros::StaticTransformBroadcaster>(this);

@@ -5,17 +5,61 @@
 ## 依赖
 
 - ROS2 Humble / Kilted
-- wujihandcpp (已编译)
+- wujihandcpp (已编译或已安装 deb 包)
 - rviz2
 - foxglove_bridge (可选，用于 Foxglove/Lichtblick 可视化)
+- matplotlib, numpy (用于绘图脚本)
 
 ## 编译
 
+### 前提条件
+
+wujihandcpp 库必须先安装，支持两种方式：
+
+**方式一：使用 deb 包（推荐）**
+```bash
+sudo dpkg -i wujihandcpp_*.deb
+```
+
+**方式二：从源码编译**
+```bash
+cd ~/Public/wujihandcpp
+mkdir build && cd build
+cmake ..
+make -j$(nproc)
+```
+
+### 编译 tactile_viz
+
 ```bash
 cd ~/Public/wujihandros2
-source /opt/ros/kilted/setup.bash
+
+# 加载环境（自动检测 ROS2 版本，自动设置 LD_LIBRARY_PATH）
+source env.sh
+
+# 编译所有包
+colcon build
+
+# 或仅编译 tactile_viz
 colcon build --packages-select tactile_viz
+
+# 重新加载环境
+source env.sh
 ```
+
+### CMake 查找路径
+
+CMakeLists.txt 会在以下位置查找 wujihandcpp：
+- 库文件: `/usr/lib` 或 `~/Public/wujihandcpp/build`
+- 头文件: `/usr/include` 或 `~/Public/wujihandcpp/include`
+
+### 生成的可执行文件
+
+| 可执行文件 | 说明 |
+|-----------|------|
+| `tactile_viz_node` | 主可视化节点，发布 MarkerArray |
+| `tactile_stats_node` | 统计分析节点，输出 CSV |
+| `filter_demo_node` | 滤波效果演示节点 |
 
 ## 启动
 
@@ -26,7 +70,6 @@ colcon build --packages-select tactile_viz
 ```bash
 cd ~/Public/wujihandros2
 source env.sh
-export LD_LIBRARY_PATH=~/Public/wujihandcpp/build:$LD_LIBRARY_PATH
 ros2 launch tactile_viz tactile_viz_foxglove.launch.py
 ```
 
@@ -47,7 +90,6 @@ ros2 launch tactile_viz tactile_viz_foxglove.launch.py
 ```bash
 cd ~/Public/wujihandros2
 source env.sh
-export LD_LIBRARY_PATH=~/Public/wujihandcpp/build:$LD_LIBRARY_PATH
 ros2 launch tactile_viz tactile_viz.launch.py
 ```
 
@@ -57,7 +99,6 @@ ros2 launch tactile_viz tactile_viz.launch.py
 ```bash
 cd ~/Public/wujihandros2
 source env.sh
-export LD_LIBRARY_PATH=~/Public/wujihandcpp/build:$LD_LIBRARY_PATH
 ros2 run tactile_viz tactile_viz_node
 ```
 
@@ -65,7 +106,7 @@ ros2 run tactile_viz tactile_viz_node
 ```bash
 cd ~/Public/wujihandros2
 source env.sh
-rviz2 -d ~/Public/wujihandros2/install/tactile_viz/share/tactile_viz/rviz/tactile_display.rviz
+rviz2 -d install/tactile_viz/share/tactile_viz/rviz/tactile_display.rviz
 ```
 
 ## 监听 Topic
@@ -138,9 +179,7 @@ ros2 run tactile_viz tactile_viz_node --ros-args \
 
 ```bash
 cd ~/Public/wujihandros2
-source /opt/ros/kilted/setup.bash
-source install/setup.bash
-export LD_LIBRARY_PATH=~/Public/wujihandcpp/build:$LD_LIBRARY_PATH
+source env.sh
 ros2 run tactile_viz tactile_stats_node
 ```
 
@@ -149,8 +188,9 @@ ros2 run tactile_viz tactile_stats_node
 | 参数 | 默认值 | 说明 |
 |------|--------|------|
 | `collection_duration` | 30.0 | 采集时长 (秒) |
-| `sample_rate` | 10.0 | 采样频率 (Hz) |
+| `sample_rate` | 100.0 | 采样频率 (Hz) |
 | `output_dir` | tactile_viz/log | 输出目录 |
+| `quiet` | false | 静默模式，不打印每点详情 |
 
 ### 输出文件
 
@@ -158,6 +198,22 @@ ros2 run tactile_viz tactile_stats_node
 - `raw_YYYYMMDD_HHMMSS.csv` - 原始采样数据
 
 ## 故障排除
+
+### /tactile_markers 话题未发布
+
+节点启动但话题不发布，通常是因为无法获取触觉数据：
+
+```bash
+# 检查设备连接
+lsusb | grep 0483
+
+# 检查是否有其他进程占用
+pkill -f tactile_viz_node
+pkill -f wujihand_driver_node
+
+# 查看详细日志
+ros2 run tactile_viz tactile_viz_node --ros-args --log-level debug
+```
 
 ### Foxglove 连接失败
 
@@ -206,3 +262,47 @@ sudo chmod 666 /dev/bus/usb/<BUS>/<DEVICE>
 echo 'SUBSYSTEM=="usb", ATTR{idVendor}=="0483", MODE="0666"' | sudo tee /etc/udev/rules.d/99-wujihand.rules
 sudo udevadm control --reload-rules
 ```
+
+## 绘图脚本
+
+### plot_filter_effect.py
+
+可视化滤波效果的 Python 脚本，对比原始数据与滤波后数据。
+
+**功能：**
+- 绘制前 6 个触觉点的原始 vs 滤波力矢量
+- 绘制合力的原始 vs 滤波对比
+- 计算并显示噪声降低百分比
+- 自动保存 PNG 图片
+
+**依赖安装：**
+```bash
+pip install matplotlib numpy
+```
+
+**使用方法：**
+
+```bash
+# 方式一：自动使用最新的 filter_demo CSV 文件
+python3 ~/Public/wujihandros2/tactile_viz/scripts/plot_filter_effect.py
+
+# 方式二：指定 CSV 文件
+python3 ~/Public/wujihandros2/tactile_viz/scripts/plot_filter_effect.py <csv_file>
+
+# 示例
+python3 ~/Public/wujihandros2/tactile_viz/scripts/plot_filter_effect.py \
+    ~/Public/wujihandros2/tactile_viz/log/filter_demo_20251220_170501.csv
+```
+
+**生成滤波数据：**
+
+先运行 `filter_demo_node` 采集数据：
+```bash
+source env.sh
+ros2 run tactile_viz filter_demo_node
+# 等待采集完成，数据保存到 tactile_viz/log/filter_demo_*.csv
+```
+
+**输出：**
+- 终端显示交互式图表窗口
+- 自动保存 `filter_demo_*_plot.png` 到同一目录

@@ -15,6 +15,9 @@ else
     echo "Warning: No ROS2 installation found in /opt/ros/"
 fi
 
+# 添加 wujihandcpp 库路径（本地开发用）
+export LD_LIBRARY_PATH=~/Public/wujihandcpp/build:$LD_LIBRARY_PATH
+
 # 加载工作空间
 if [ -f "$SCRIPT_DIR/install/setup.bash" ]; then
     source "$SCRIPT_DIR/install/setup.bash"

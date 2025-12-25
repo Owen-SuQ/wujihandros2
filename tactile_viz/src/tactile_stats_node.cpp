@@ -81,7 +81,7 @@ public:
     {
         // Declare parameters
         declare_parameter("collection_duration", 30.0);  // seconds
-        declare_parameter("sample_rate", 10.0);          // Hz (matches tactile data source)
+        declare_parameter("sample_rate", 100.0);          // Hz (matches tactile data source)
         declare_parameter("output_dir", std::string(TACTILE_VIZ_LOG_DIR));  // Output directory
         declare_parameter("quiet", false);               // Suppress per-point output
 
