@@ -166,7 +166,7 @@ ros2 launch wujihand_bringup wujihand.launch.py
 
 On successful launch:
 
-```
+```text
 [wujihand_driver]: Connected to WujiHand (right)
 [wujihand_driver]: WujiHand driver started (state: 1000.0 Hz, diagnostics: 10.0 Hz)
 ```
@@ -203,7 +203,7 @@ ros2 run wujihand_bringup wave_demo.py
 
 > **Note**: Left/right hand type is auto-detected from hardware, no manual specification needed.
 
-**Single Hand Examples:**
+**Single-Hand Examples:**
 
 ```bash
 # Default namespace "hand_0"
@@ -302,4 +302,4 @@ ros2 service call /hand_0/reset_error wujihand_msgs/srv/ResetError \
 
 ## Contact
 
-For any questions, please contact support@wuji.tech.
+For any questions, please contact [support@wuji.tech](mailto:support@wuji.tech).
