@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Use SensorDataQoS for joint_commands subscription to support high-frequency control
+- Improve wave_demo.py with dedicated thread for consistent 100Hz publishing rate
 - Upgrade wujihandcpp SDK to v1.4.0
 - Fix RViz display and parameter issues
 - Force serial_number to string type for ROS2 Kilted compatibility

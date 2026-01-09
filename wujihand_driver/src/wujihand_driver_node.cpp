@@ -61,9 +61,9 @@ WujiHandDriverNode::WujiHandDriverNode() : Node("wujihand_driver"), hardware_con
   diagnostics_pub_ =
       this->create_publisher<wujihand_msgs::msg::HandDiagnostics>("hand_diagnostics", 10);
 
-  // Create subscriber for joint commands (using standard JointState)
+  // Create subscriber for joint commands (using SensorDataQoS for high-frequency data)
   cmd_sub_ = this->create_subscription<sensor_msgs::msg::JointState>(
-      "joint_commands", 10,
+      "joint_commands", rclcpp::SensorDataQoS(),
       std::bind(&WujiHandDriverNode::command_callback, this, std::placeholders::_1));
 
   // Create services
