@@ -147,8 +147,7 @@ ros2 run wujihand_bringup wave_demo.py
 | 命令 | 说明 |
 |:-----|:-----|
 | `ros2 launch wujihand_bringup wujihand.launch.py` | 仅驱动 |
-| `ros2 launch wujihand_bringup wujihand_rviz.launch.py` | 驱动 + RViz 可视化 |
-| `ros2 launch wujihand_bringup wujihand_foxglove.launch.py` | 驱动 + Foxglove/Lichtblick |
+| `ros2 launch wujihand_bringup wujihand.launch.py rviz:=true` | 驱动 + RViz 可视化 |
 
 ### 启动参数
 
@@ -159,6 +158,7 @@ ros2 run wujihand_bringup wave_demo.py
 | `publish_rate` | `1000.0` | 关节状态发布频率 (Hz) |
 | `filter_cutoff_freq` | `10.0` | 低通滤波截止频率 (Hz) |
 | `diagnostics_rate` | `10.0` | 诊断信息发布频率 (Hz) |
+| `rviz` | `false` | 启动 RViz 可视化 |
 
 > **说明**: 左右手类型从硬件自动检测，无需手动指定。
 
@@ -166,21 +166,21 @@ ros2 run wujihand_bringup wave_demo.py
 
 ```bash
 # 默认命名空间为 "hand_0"
-ros2 launch wujihand_bringup wujihand_foxglove.launch.py
+ros2 launch wujihand_bringup wujihand.launch.py
 
 # 自定义命名空间
-ros2 launch wujihand_bringup wujihand_foxglove.launch.py hand_name:=my_hand
+ros2 launch wujihand_bringup wujihand.launch.py hand_name:=my_hand
 ```
 
 ### 多手配置
 
 ```bash
 # 启动左手（通过序列号区分）
-ros2 launch wujihand_bringup wujihand_foxglove.launch.py \
+ros2 launch wujihand_bringup wujihand.launch.py \
     hand_name:=left_hand serial_number:=ABC123 &
 
 # 启动右手
-ros2 launch wujihand_bringup wujihand_foxglove.launch.py \
+ros2 launch wujihand_bringup wujihand.launch.py \
     hand_name:=right_hand serial_number:=DEF456 &
 ```
 

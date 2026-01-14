@@ -179,7 +179,7 @@ ros2 run wujihand_bringup wave_demo.py
 | Command | Description |
 |:--------|:------------|
 | `ros2 launch wujihand_bringup wujihand.launch.py` | Driver only |
-| `ros2 launch wujihand_bringup wujihand_rviz.launch.py` | Driver + RViz visualization |
+| `ros2 launch wujihand_bringup wujihand.launch.py rviz:=true` | Driver + RViz visualization |
 
 **Launch Parameters:**
 
@@ -190,6 +190,7 @@ ros2 run wujihand_bringup wave_demo.py
 | `publish_rate` | `1000.0` | Joint state publish rate (Hz) |
 | `filter_cutoff_freq` | `10.0` | Low-pass filter cutoff frequency (Hz) |
 | `diagnostics_rate` | `10.0` | Diagnostics publish rate (Hz) |
+| `rviz` | `false` | Launch RViz for visualization |
 
 > **Note**: Left/right hand type is auto-detected from hardware, no manual specification needed.
 
