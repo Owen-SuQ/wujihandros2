@@ -1,5 +1,10 @@
+import os
+
+from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.conditions import IfCondition
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
@@ -34,6 +39,12 @@ def generate_launch_description():
         description="Diagnostics publish rate in Hz",
     )
 
+    rviz_arg = DeclareLaunchArgument(
+        "rviz",
+        default_value="false",
+        description="Whether to launch RViz for visualization",
+    )
+
     # Build joint_prefix as "hand_name/" to match XACRO-generated URDF
     joint_prefix = PythonExpression(["'", LaunchConfiguration("hand_name"), "/'"])
 
@@ -60,6 +71,15 @@ def generate_launch_description():
         emulate_tty=True,
     )
 
+    # Conditionally include visualization launch
+    wuji_hand_description_dir = get_package_share_directory("wuji_hand_description")
+    display_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(wuji_hand_description_dir, "launch", "display.launch.py")
+        ),
+        condition=IfCondition(LaunchConfiguration("rviz")),
+    )
+
     return LaunchDescription(
         [
             hand_name_arg,
@@ -67,6 +87,8 @@ def generate_launch_description():
             publish_rate_arg,
             filter_cutoff_freq_arg,
             diagnostics_rate_arg,
+            rviz_arg,
             wujihand_driver_node,
+            display_launch,
         ]
     )
