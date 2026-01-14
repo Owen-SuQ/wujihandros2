@@ -5,7 +5,7 @@ from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, OpaqueFunction, TimerAction
 from launch.conditions import IfCondition
-from launch.substitutions import LaunchConfiguration, PythonExpression
+from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
 
@@ -61,12 +61,6 @@ def generate_launch_description():
         description="Diagnostics publish rate in Hz",
     )
 
-    hand_type_arg = DeclareLaunchArgument(
-        "hand_type",
-        default_value="",
-        description="Hand type: 'left' or 'right'. Empty for auto-detect from device.",
-    )
-
     rviz_arg = DeclareLaunchArgument(
         "rviz",
         default_value="false",
@@ -78,9 +72,6 @@ def generate_launch_description():
         default_value="false",
         description="Whether to launch Foxglove Bridge for web visualization",
     )
-
-    # Build joint_prefix as "hand_name/" to match URDF joint names
-    joint_prefix = PythonExpression(["'", LaunchConfiguration("hand_name"), "/'"])
 
     # Force serial_number to string type (workaround for ROS2 Kilted type inference)
     serial_number_str = ParameterValue(
@@ -95,7 +86,6 @@ def generate_launch_description():
         parameters=[
             {
                 "serial_number": serial_number_str,
-                "joint_prefix": joint_prefix,
                 "publish_rate": LaunchConfiguration("publish_rate"),
                 "filter_cutoff_freq": LaunchConfiguration("filter_cutoff_freq"),
                 "diagnostics_rate": LaunchConfiguration("diagnostics_rate"),
@@ -135,7 +125,6 @@ def generate_launch_description():
             publish_rate_arg,
             filter_cutoff_freq_arg,
             diagnostics_rate_arg,
-            hand_type_arg,
             rviz_arg,
             foxglove_arg,
             wujihand_driver_node,
