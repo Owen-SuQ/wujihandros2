@@ -67,6 +67,12 @@ def generate_launch_description():
         description="Whether to launch RViz for visualization",
     )
 
+    foxglove_arg = DeclareLaunchArgument(
+        "foxglove",
+        default_value="false",
+        description="Whether to launch Foxglove Bridge for web visualization",
+    )
+
     # Build joint_prefix as "hand_name/" to match URDF joint names
     joint_prefix = PythonExpression(["'", LaunchConfiguration("hand_name"), "/'"])
 
@@ -106,6 +112,16 @@ def generate_launch_description():
         condition=IfCondition(LaunchConfiguration("rviz")),
     )
 
+    # Conditionally spawn Foxglove Bridge for web visualization
+    foxglove_bridge_node = Node(
+        package="foxglove_bridge",
+        executable="foxglove_bridge",
+        name="foxglove_bridge",
+        namespace=LaunchConfiguration("hand_name"),
+        output="screen",
+        condition=IfCondition(LaunchConfiguration("foxglove")),
+    )
+
     return LaunchDescription(
         [
             hand_name_arg,
@@ -114,8 +130,10 @@ def generate_launch_description():
             filter_cutoff_freq_arg,
             diagnostics_rate_arg,
             rviz_arg,
+            foxglove_arg,
             wujihand_driver_node,
             auto_detect_action,
             rviz_action,
+            foxglove_bridge_node,
         ]
     )
