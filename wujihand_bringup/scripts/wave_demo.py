@@ -150,10 +150,10 @@ class WaveDemo(Node):
         self.get_logger().info(f"Controlling hands: {self.hand_names}")
 
         # Create publishers for all hands
-        self.publishers = {}
+        self.cmd_publishers = {}
         for hand_name in self.hand_names:
             topic_name = f"/{hand_name}/joint_commands"
-            self.publishers[hand_name] = self.create_publisher(
+            self.cmd_publishers[hand_name] = self.create_publisher(
                 JointState, topic_name, qos_profile_sensor_data
             )
             self.get_logger().info(f"Created publisher for {topic_name}")
@@ -205,7 +205,7 @@ class WaveDemo(Node):
                 self.msg.position[base + 3] = y  # DIP
 
             # Publish to all hands
-            for publisher in self.publishers.values():
+            for publisher in self.cmd_publishers.values():
                 publisher.publish(self.msg)
 
             # Precise timing
