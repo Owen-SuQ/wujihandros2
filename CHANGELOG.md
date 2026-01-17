@@ -7,18 +7,39 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-01-16
+
 ### Added
 
+- `rviz` and `foxglove` parameters for `wujihand.launch.py` for visualization control
+- `hand_type` parameter for manual hand type override
+- `wuji-hand-description` git submodule for unified URDF source
 - Populate `effort` field in `joint_states` topic with real-time effort data
 - Add `effort_limits` field to `HandDiagnostics` message for monitoring effort limit settings
 
+### Changed
+
+- Consolidate URDF to external `wuji-hand-description` package
+- Remove xacro dependency, use pre-generated URDF files
+- Merge `display.left.py` and `display.right.py` into `display.launch.py`
+- Update submodule branch from master to main
+
+### Removed
+
+- `joint_prefix` parameter - joint names no longer have prefix
+- Internal `wujihand_description` package
+- `wujihand_rviz.launch.py` and `wujihand_foxglove.launch.py`
+
 ### Fixed
 
+- robot_state_publisher TF - joint names now match URDF without prefix
+- RViz config uses relative topic path for namespace compatibility
 - Use SensorDataQoS for joint_commands subscription to support high-frequency control
 - Improve wave_demo.py with dedicated thread for consistent 100Hz publishing rate
 - Upgrade wujihandcpp SDK to v1.5.0
 - Fix RViz display and parameter issues
 - Force serial_number to string type for ROS2 Kilted compatibility
+- Submodule URL update for branch compatibility
 
 ## [0.1.0] - 2025-12-19
 
@@ -32,5 +53,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Common utility module (spawn_robot_state_publisher)
 - CI build status badge in README
 
-[Unreleased]: https://github.com/wuji-technology/wujihandros2/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/wuji-technology/wujihandros2/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/wuji-technology/wujihandros2/releases/tag/v1.0.0
 [0.1.0]: https://github.com/wuji-technology/wujihandros2/releases/tag/v0.1.0

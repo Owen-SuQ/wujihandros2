@@ -19,11 +19,11 @@ Joints:     hand_0/finger1_joint1, hand_0/finger1_joint2, ...
 **多手配置示例**:
 ```bash
 # 左手（通过序列号区分）
-ros2 launch wujihand_bringup wujihand_foxglove.launch.py \
+ros2 launch wujihand_bringup wujihand.launch.py \
     hand_name:=left_hand serial_number:=ABC123
 
 # 右手
-ros2 launch wujihand_bringup wujihand_foxglove.launch.py \
+ros2 launch wujihand_bringup wujihand.launch.py \
     hand_name:=right_hand serial_number:=DEF456
 ```
 

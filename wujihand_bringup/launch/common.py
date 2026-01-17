@@ -1,7 +1,6 @@
 """Common launch utilities for WujiHand."""
 
 import os
-import subprocess
 import time
 
 import rclpy
@@ -121,7 +120,7 @@ def spawn_robot_state_publisher(context):
     """
     hand_name = LaunchConfiguration("hand_name").perform(context)
     driver_node_name = f"/{hand_name}/wujihand_driver"
-    wujihand_description_dir = get_package_share_directory("wujihand_description")
+    wuji_hand_description_dir = get_package_share_directory("wuji_hand_description")
 
     _logger.info(f"Attempting to detect handedness from {driver_node_name}")
 
@@ -170,24 +169,15 @@ def spawn_robot_state_publisher(context):
 
     _logger.info(f"Using handedness: {hand_type}")
 
-    # Use xacro to process the URDF with prefix
-    xacro_file = os.path.join(
-        wujihand_description_dir, "urdf", f"{hand_type}.urdf.xacro"
+    # Read the pre-generated ROS URDF file
+    urdf_file = os.path.join(
+        wuji_hand_description_dir, "urdf", f"{hand_type}-ros.urdf"
     )
-    prefix = f"{hand_name}/"
     try:
-        result = subprocess.run(
-            ["xacro", xacro_file, f"prefix:={prefix}"],
-            capture_output=True,
-            text=True,
-            timeout=10.0,
-        )
-        if result.returncode != 0:
-            _logger.error(f"xacro failed: {result.stderr}")
-            return []
-        robot_description = result.stdout
-    except (subprocess.TimeoutExpired, subprocess.SubprocessError, OSError) as e:
-        _logger.error(f"Failed to process xacro: {e}")
+        with open(urdf_file, "r") as f:
+            robot_description = f.read()
+    except OSError as e:
+        _logger.error(f"Failed to read URDF file: {e}")
         return []
 
     # Return robot_state_publisher node with URDF string as parameter
