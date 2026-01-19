@@ -35,6 +35,10 @@ mkdir -p "${BUILD_DIR}"
 rm -rf debian
 rm -f "${PACKAGE_NAME}"*.deb
 
+# Ensure submodules are initialized and updated
+echo "Initializing and updating submodules..."
+git submodule update --init --recursive
+
 # Create package directory structure
 INSTALL_DIR="${BUILD_DIR}/install"
 mkdir -p "${INSTALL_DIR}"
