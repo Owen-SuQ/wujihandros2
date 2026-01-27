@@ -46,7 +46,7 @@ ROS2 driver package for Wuji Hand dexterous hand. Provides 1000Hz joint state pu
 ```bash
 git clone --recurse-submodules https://github.com/wuji-technology/wujihandros2.git
 cd wujihandros2
-# 若已克隆过仓库或未递归克隆，请执行：
+# If already cloned without --recurse-submodules, run:
 # git submodule update --init --recursive
 source /opt/ros/humble/setup.bash  # or kilted
 colcon build
