@@ -11,27 +11,28 @@ title: Configuration
 
 ## Configurable Parameters
 
+<Callout type="info">
+Handedness (left/right) is automatically detected from hardware. No manual specification required.
+</Callout>
+
 | Parameter | Default | Description |
 |:----------|:--------|:------------|
-| `hand_name` | `hand_0` | Namespace for distinguishing multiple hands. Example: `ros2 launch wujihand_bringup wujihand.launch.py hand_name:=my_hand` |
+| `hand_name` | `hand_0` | Namespace for distinguishing multiple hands. <br/> Example: `ros2 launch wujihand_bringup wujihand.launch.py hand_name:=my_hand` |
 | `serial_number` | `""` | Device serial number (auto-detect if empty) |
 | `publish_rate` | `1000.0` | Joint state publishing rate (Hz) |
 | `filter_cutoff_freq` | `10.0` | Low-pass filter cutoff frequency (Hz) |
 | `diagnostics_rate` | `10.0` | Diagnostics publishing rate (Hz) |
 | `rviz` | `false` | Whether to launch RViz visualization |
 
-<Callout type="info">
-Handedness (left/right) is automatically detected from hardware. No manual specification required.
-</Callout>
-
 ## Multi-hand Configuration
 
 When controlling multiple dexterous hands simultaneously, use serial numbers and namespaces to distinguish them.
 
-If opening a new terminal, you need to source the ROS2 environment again:
+If opening a new terminal, you need to source the ROS2 environment again
 ```bash
-# (If built from source) Source ROS2 environment, replace ${distro} with your ROS2 distribution
+# Source ROS2 environment, replace ${distro} with your ROS2 distribution
 source /opt/ros/${distro}/setup.bash
+# If built from source, overlay the workspace (Deb package users can skip)
 source install/setup.bash
 ```
 

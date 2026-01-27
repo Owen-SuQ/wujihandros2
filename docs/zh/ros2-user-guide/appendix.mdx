@@ -4,7 +4,7 @@ title: 附录
 
 ## 故障排查
 
-### 设备被占用 (ERROR_BUSY)
+**Q: 设备被占用 (ERROR_BUSY)？**
 
 先终止已有的驱动进程：
 
@@ -14,7 +14,7 @@ pkill -f robot_state_publisher
 ros2 launch wujihand_bringup wujihand.launch.py
 ```
 
-### 话题或服务列表不完整
+**Q: 话题或服务列表不完整？**
 
 ROS2 daemon 可能缓存了旧的节点信息：
 
@@ -35,7 +35,7 @@ ros2 service list
 ros2 service list --no-daemon | grep -E "set_enabled|reset_error"
 ```
 
-### RViz 模型不显示
+**Q: RViz 模型不显示？**
 
 1. 确认 **Fixed Frame** 设置为 `{hand_name}/palm_link`（如 `hand_0/palm_link`）
 2. 确认 **RobotModel** 的 **Description Topic** 设置为 `/{hand_name}/robot_description`
