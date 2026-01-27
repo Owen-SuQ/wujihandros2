@@ -64,10 +64,6 @@ ros2 launch wujihand_bringup wujihand.launch.py rviz:=true
 ros2 topic echo /hand_0/joint_states --once
 ```
 
-## Appendix
-
-- **API Reference**: [docs/API.md](docs/API.md) - Topics, Services, Parameters, Error Handling
-
 ## Contact
 
 For any questions, please contact [support@wuji.tech](mailto:support@wuji.tech).
