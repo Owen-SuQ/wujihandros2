@@ -1,0 +1,50 @@
+---
+title: 快速开始
+---
+
+## 启动驱动
+
+```bash
+#（如使用源码编译）加载 ROS2 环境，替换 ${distro} 为实际安装的 ROS2 发行版
+source /opt/ros/${distro}/setup.bash
+source install/setup.bash
+
+# 启动驱动
+ros2 launch wujihand_bringup wujihand.launch.py
+```
+
+启动成功后会看到以下输出：
+
+```text
+[wujihand_driver]: Connected to WujiHand (right)
+[wujihand_driver]: WujiHand driver started (state: 1000.0 Hz, diagnostics: 10.0 Hz)
+```
+
+## 验证运行状态
+
+打开新终端，查看关节状态：
+
+```bash
+# 加载 ROS2 环境，替换 ${distro} 为实际安装的 ROS2 发行版
+source /opt/ros/${distro}/setup.bash
+source install/setup.bash
+
+ros2 topic echo /hand_0/joint_states --once
+```
+
+## 运行演示
+
+```bash
+# 波浪演示：手指依次弯曲伸展
+ros2 run wujihand_bringup wave_demo.py
+```
+
+## 启动 RViz 可视化
+
+```bash
+ros2 launch wujihand_bringup wujihand.launch.py rviz:=true
+```
+
+**运行效果**
+
+![RViz 可视化效果](../images/rviz-visualization.png)

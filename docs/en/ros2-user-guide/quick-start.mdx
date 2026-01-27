@@ -1,0 +1,50 @@
+---
+title: Quick Start
+---
+
+## Launch the Driver
+
+```bash
+# (If built from source) Source ROS2 environment, replace ${distro} with your ROS2 distribution
+source /opt/ros/${distro}/setup.bash
+source install/setup.bash
+
+# Launch the driver
+ros2 launch wujihand_bringup wujihand.launch.py
+```
+
+On successful launch, you will see the following output:
+
+```text
+[wujihand_driver]: Connected to WujiHand (right)
+[wujihand_driver]: WujiHand driver started (state: 1000.0 Hz, diagnostics: 10.0 Hz)
+```
+
+## Verify Operation
+
+Open a new terminal and check the joint states:
+
+```bash
+# Source ROS2 environment, replace ${distro} with your ROS2 distribution
+source /opt/ros/${distro}/setup.bash
+source install/setup.bash
+
+ros2 topic echo /hand_0/joint_states --once
+```
+
+## Run Demo
+
+```bash
+# Wave demo: fingers curl and extend in sequence
+ros2 run wujihand_bringup wave_demo.py
+```
+
+## Launch RViz Visualization
+
+```bash
+ros2 launch wujihand_bringup wujihand.launch.py rviz:=true
+```
+
+**Result**
+
+![RViz Visualization](../images/rviz-visualization.png)

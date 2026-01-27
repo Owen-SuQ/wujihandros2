@@ -1,6 +1,11 @@
 {
   "title": "ROS2 驱动",
   "pages": [
-    "wuji-hand-ros2-user-guide"
+    "ros2-user-guide/index",
+    "ros2-user-guide/installation",
+    "ros2-user-guide/quick-start",
+    "ros2-user-guide/configuration",
+    "ros2-user-guide/ros2-interface",
+    "ros2-user-guide/appendix"
   ]
 }
