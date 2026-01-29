@@ -143,7 +143,7 @@ The following examples demonstrate how to create a ROS2 node to control the dext
 ```python
 import rclpy
 from rclpy.node import Node
-from rclpy.qos import QoSProfile, ReliabilityPolicy
+from rclpy.qos import qos_profile_sensor_data
 from sensor_msgs.msg import JointState
 
 class WujiHandController(Node):
@@ -154,14 +154,11 @@ class WujiHandController(Node):
         self.hand_name = hand_name
         self.count = 0  # Message counter for throttling output
 
-        # QoS configuration: use BEST_EFFORT to match driver's SensorDataQoS
-        qos = QoSProfile(depth=10, reliability=ReliabilityPolicy.BEST_EFFORT)
-
         # Create publisher: send joint position commands to joint_commands topic
         self.cmd_pub = self.create_publisher(
             JointState,
             f'/{hand_name}/joint_commands',
-            qos
+            qos_profile_sensor_data
         )
 
         # Create subscriber: receive joint states from joint_states topic (1000Hz)
@@ -169,7 +166,7 @@ class WujiHandController(Node):
             JointState,
             f'/{hand_name}/joint_states',
             self.state_callback,
-            qos
+            qos_profile_sensor_data
         )
 
     def state_callback(self, msg):
