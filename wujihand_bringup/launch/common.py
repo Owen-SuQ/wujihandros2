@@ -38,7 +38,7 @@ def spawn_robot_state_publisher(context):
     hand_type = None
     try:
         if not rclpy.ok():
-            rclpy.init()
+            rclpy.init(args=[])
         temp_node = RclpyNode("_handedness_detector_temp")
 
         # Poll for handedness parameter (retry up to 30 times with 0.5s interval)
@@ -104,6 +104,9 @@ def spawn_robot_state_publisher(context):
                         robot_description, value_type=str
                     )
                 },
+                # Prefix TF frame IDs with the ROS namespace (e.g. right_hand/palm_link).
+                # This enables running multiple hands simultaneously without TF collisions.
+                {"frame_prefix": f"{hand_name}/"},
                 {"publish_frequency": 100.0},
             ],
             remappings=[
